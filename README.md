@@ -10,21 +10,19 @@ findbugs4sbt is hosted at the [sbt Community Repository](http://repo.scala-sbt.o
 
 If you want to go bleeding edge, you can also:
 
-    git clone https://github.com/sbt/findbugs4sbt.git
-    cd findbugs4sbt 
-    sbt publish-local
+    sbt publishLocal
 
-### Adding findbugs4sbt as a plug-in to your project
+### Adding sbt-findbugs-plugin as a plug-in to your project
 
 Add the following to your project's `build.sbt` file:
 
 ```scala
-import de.johoop.findbugs4sbt.FindBugs._
+import de.johoop.findbugs4sbt.FindBugs
 
-findbugsSettings
+FindBugs.findbugsSettings
 ```
 
-Also, you have to add the plugin dependency to your project's `./project/plugins.sbt` or the global  `.sbt/plugins/build.sbt`:
+Also, you have to add the plugin dependency to your project's `./project/plugins.sbt` or the global `.sbt/plugins/build.sbt`:
 
 ```scala
 addSbtPlugin("de.johoop" % "findbugs4sbt" % "1.4.0")
