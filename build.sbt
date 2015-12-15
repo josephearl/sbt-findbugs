@@ -13,7 +13,7 @@ scalacOptions ++= Seq("-unchecked", "-deprecation", "-language:_")
 publishTo := {
   val nexus = "https://nexus.lenioapp.com/repository/"
   if (isSnapshot.value)
-    Some("snapshots" at nexus + "lenio-snapshot")
+    Some("sbt-plugin-snapshots" at nexus + "lenio-sbt-plugin-snapshot")
   else
-    Some("releases"  at nexus + "lenio-release")
+    Some("sbt-plugin-releases"  at nexus + "lenio-sbt-plugin-release")
 }
