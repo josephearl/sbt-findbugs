@@ -17,3 +17,7 @@ publishTo := {
   else
     Some("sbt-plugin-releases"  at nexus + "lenio-sbt-plugin-release")
 }
+
+publishMavenStyle := false
+
+publishArtifact in Test := false
