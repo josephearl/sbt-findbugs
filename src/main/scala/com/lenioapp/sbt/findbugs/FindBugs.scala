@@ -28,8 +28,8 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
   val findbugsClasspath = TaskKey[Classpath]("findbugs-classpath")
   /** Plugin list for FindBugs. Defaults to <code>Seq()</code>. */
   val pluginList = TaskKey[Seq[String]]("findbugs-plugin-list")
-  /** Output path for FindBugs reports. Defaults to <code>Some(crossTarget / "findbugs" / "findbugs.xml")</code>. */
-  val outputPath = SettingKey[Option[File]]("findbugs-report-path")
+  /** Output path for FindBugs reports. Defaults to <code>Some(target / "findbugs" / "findbugs.xml")</code>. */
+  val reportPath = SettingKey[Option[File]]("findbugs-report-path")
   /** The path to the classes to be analyzed. Defaults to <code>target / classes</code>. */
   val analyzedPath = TaskKey[Seq[File]]("findbugs-analyzed-path")
   /** The path to the classes not to be analyzed but referenced by analyzed ones. Defaults to <code>dependencyClasspath in Compile</code>. */
@@ -59,7 +59,7 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
 
   def findbugsTask(conf: Configuration): Initialize[Task[Unit]] = Def.task {
     val filterSettings = ((includeFilters in conf, excludeFilters in conf) map FilterSettings).value
-    val pathSettings = ((outputPath in conf, analyzedPath in conf, auxiliaryPath in conf) map PathSettings dependsOn (compile in conf)).value
+    val pathSettings = ((reportPath in conf, analyzedPath in conf, auxiliaryPath in conf) map PathSettings dependsOn (compile in conf)).value
     val miscSettings = ((reportType, priority, onlyAnalyze, maxMemory,
       analyzeNestedArchives, sortReportByClassNames, effort, failOnError, pluginList) map MiscSettings).value
 
@@ -127,8 +127,8 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
   override lazy val projectSettings: Seq[Def.Setting[_]] = Seq(
     findbugs <<= findbugsTask(Compile),
     findbugs in Test <<= findbugsTask(Test),
-    outputPath := Some(target.value / "findbugs-report.xml"),
-    outputPath in Test := Some(target.value / "findbugs-test-report.xml"),
+    reportPath := Some(target.value / "findbugs-report.xml"),
+    reportPath in Test := Some(target.value / "findbugs-test-report.xml"),
     analyzedPath := Seq((classDirectory in Compile).value),
     analyzedPath in Test := Seq((classDirectory in Test).value),
     auxiliaryPath := (dependencyClasspath in Compile).value.files,

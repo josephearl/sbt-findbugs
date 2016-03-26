@@ -24,7 +24,7 @@ import com.lenioapp.sbt.findbugs._
 
 You can run FindBugs over your Java classes with the `findbugs` task. You can run FindBugs over your Java test classes with the `test:findbugs` task.
 
-The FindBugs report is output to `target/findbugs-report.xml` by default. This can be changed by setting the value of `FindBugs.outputFile`. By default `test:findbugs` outputs to `target/findbugs-test-report.xml`, this can be changed by setting the value of `FindBugs.outputFile in Test`.
+The FindBugs report is output to `target/findbugs-report.xml` by default. This can be changed by setting the value of `FindBugs.reportPath`. By default `test:findbugs` outputs to `target/findbugs-test-report.xml`, this can be changed by setting the value of `FindBugs.reportPath in Test`.
 
 You can define include/exclude filters either inline in the `build.sbt` or in an external XML file.
 
@@ -106,7 +106,7 @@ FindBugs.failOnError := true
 * *Accepts:* `Some(ReportType.{Xml, Html, PlainHtml, FancyHtml, FancyHistHtml, Emacs, Xdoc})`
 * *Default:* `Some(ReportType.Xml)`
 
-### `outputPath`
+### `reportPath`
 * *Description:* Target path of the report file to generate (optional).
 * *Accepts:* any legal file path
 * *Default:* `Some(target.value / "findbugs" / "report.xml")`
