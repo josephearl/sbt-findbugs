@@ -1,6 +1,6 @@
 import com.lenioapp.sbt.findbugs._
 
-name := "findbugs-fail"
+name := "findbugs-no-plugin"
 
 organization := "com.lenioapp"
 

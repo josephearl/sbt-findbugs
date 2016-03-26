@@ -1,0 +1,3 @@
+# Check that the findbugs report is created
+> compile
+$ exists target/findbugs-report.xml
