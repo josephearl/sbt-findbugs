@@ -1,5 +1,6 @@
 /*
- * This file is part of findbugs4sbt.
+ * Copyright (c) 2015-2016 Lenio Ltd, Joseph Earl & contributors.
+ * All rights reserved.
  *
  * Copyright (c) 2010-2014 Joachim Hofer & contributors
  * All rights reserved.
