@@ -28,6 +28,8 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
   val findbugsFilterSettings = TaskKey[FilterSettings]("findbugs-filter-settings")
   val findbugsMiscSettings = TaskKey[MiscSettings]("findbugs-misc-settings")
 
+  /** Plugin list for FindBugs. Defaults to <code>Seq()</code>. */
+  val plugins = TaskKey[Seq[String]]("findbugs-plugins")
   /** Output path for FindBugs reports. Defaults to <code>Some(crossTarget / "findbugs" / "findbugs.xml")</code>. */
   val reportPath = SettingKey[Option[File]]("findbugs-report-path")
   /** The path to the classes to be analyzed. Defaults to <code>target / classes</code>. */
@@ -89,7 +91,7 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
     })
   }
 
-  private val findbugsConfig = config("findbugs") hide
+  private val findbugsConfig = config("findbugs").hide
 
   override def projectConfigurations: Seq[Configuration] = Seq(
     findbugsConfig
@@ -111,10 +113,11 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
 
     findbugsFilterSettings <<= (includeFilters, excludeFilters) map FilterSettings,
     findbugsMiscSettings <<= (reportType, priority, onlyAnalyze, maxMemory,
-      analyzeNestedArchives, sortReportByClassNames, effort, failOnError) map MiscSettings,
+      analyzeNestedArchives, sortReportByClassNames, effort, failOnError, plugins) map MiscSettings,
 
-    findbugsClasspath := Classpaths managedJars (findbugsConfig, classpathTypes value, update value),
+    findbugsClasspath := Classpaths managedJars (findbugsConfig, classpathTypes.value, update.value),
 
+    plugins := Seq(),
     reportType := Some(ReportType.Xml),
     priority := Priority.Medium,
     effort := Effort.Default,
@@ -124,8 +127,8 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
     analyzeNestedArchives := true,
     sortReportByClassNames := false,
     failOnError := false,
-    analyzedPath := Seq(classDirectory in Compile value),
-    analyzedPath in Test := Seq(classDirectory in Test value),
+    analyzedPath := Seq((classDirectory in Compile).value),
+    analyzedPath in Test := Seq((classDirectory in Test).value),
     auxiliaryPath := (dependencyClasspath in Compile).value.files,
     auxiliaryPath in Test := (dependencyClasspath in Test).value.files,
     onlyAnalyze := None,

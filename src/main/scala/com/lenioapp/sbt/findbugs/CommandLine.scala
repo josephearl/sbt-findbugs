@@ -18,7 +18,7 @@ import sbt._
 
 private[findbugs] trait CommandLine extends AutoPlugin with Filters {
 
-  def commandLine(findbugsClasspath: Classpath, compileClasspath: Classpath, 
+  def commandLine(findbugsClasspath: Classpath, compileClasspath: Classpath,
       paths: PathSettings, filters: FilterSettings, filterPath: File, misc: MiscSettings, streams: TaskStreams) = {
     
     def findbugsCommandLine = findbugsJavaCall ++ findbugsCallOptions ++ findbugsCallArguments
@@ -44,7 +44,8 @@ private[findbugs] trait CommandLine extends AutoPlugin with Filters {
         paths.reportPath.map(path => List("-output", path.absolutePath)).getOrElse(Nil) ++ List(
           "-nested:%b".format(misc.analyzeNestedArchives),
           "-auxclasspath", commandLineClasspath(auxClasspath), misc.priority.toString,
-          "-effort:%s".format(misc.effort.toString)))))
+          "-effort:%s".format(misc.effort.toString),
+          "-pluginList", misc.plugins.mkString(":")))))
     }
   
     def addOnlyAnalyzeParameter(arguments: List[String]) = misc.onlyAnalyze match {
