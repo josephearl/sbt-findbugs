@@ -108,8 +108,8 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
   private lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
     findbugsClasspath := Classpaths managedJars (findbugsConfig, classpathTypes.value, update.value),
     libraryDependencies ++= Seq(
-      "com.google.code.findbugs" % "findbugs" % "3.0.0" % "findbugs->default",
-      "com.google.code.findbugs" % "jsr305" % "3.0.0" % "findbugs->default"
+      "com.google.code.findbugs" % "findbugs" % "3.0.1" % "findbugs->default",
+      "com.google.code.findbugs" % "jsr305" % "3.0.1" % "findbugs->default"
     ),
     pluginList := Seq(),
     reportType := Some(ReportType.Xml),
