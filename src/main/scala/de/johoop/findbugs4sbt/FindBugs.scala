@@ -92,15 +92,14 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
     })
   }
 
-  def findbugsSettings: Seq[Def.Setting[_]] = Seq(
-    ivyConfigurations += findbugsConfig
+  override def projectConfigurations: Seq[Configuration] = Seq(
+    findbugsConfig
   )
 
   override def projectSettings: Seq[Def.Setting[_]] = Seq(
     findbugs <<= (findbugsClasspath, managedClasspath in Compile,
       findbugsPathSettings, findbugsFilterSettings, findbugsMiscSettings, javaHome, streams) map findbugsTask,
 
-    ivyConfigurations += findbugsConfig,
     libraryDependencies ++= Seq(
       "com.google.code.findbugs" % "findbugs" % "3.0.0" % "findbugs->default",
       "com.google.code.findbugs" % "jsr305" % "3.0.0" % "findbugs->default"
