@@ -1,4 +1,4 @@
-name := "findbugs-plugin-cp"
+name := "findbugs-plugin-classpath"
 
 organization := "com.lenioapp"
 
