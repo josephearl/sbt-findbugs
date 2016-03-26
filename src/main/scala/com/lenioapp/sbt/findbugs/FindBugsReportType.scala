@@ -11,21 +11,15 @@
  */
 package com.lenioapp.sbt.findbugs
 
-sealed abstract class Effort
-
-object Effort {
-
-  case object Minimum extends Effort {
-    override def toString = "min"
-  }
-
-  case object Default extends Effort {
-    override def toString = "default"
-  }
-
-  case object Maximum extends Effort {
-    override def toString = "max"
-  }
-
+object FindBugsReportType extends Enumeration {
+  type FindBugsReportType = Value
+  
+  val Xml = Value("-xml")
+  val Html = Value("-html")
+  val PlainHtml = Value("-html:plain.xsl")
+  val FancyHtml = Value("-html:fancy.xsl")
+  val FancyHistHtml = Value("-html:fancy-hist.xsl")
+  val Emacs = Value("-emacs")
+  val Xdoc = Value("-xdocs")
 }
 

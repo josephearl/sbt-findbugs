@@ -11,13 +11,7 @@
  */
 package com.lenioapp.sbt.findbugs
 
-import sbt._
-import Keys._
-import Project.Initialize
-
-import ReportType._
-import Priority._
-import Effort._
+import FindBugsReportType._
 
 import scala.xml.Node
 import java.io.File
@@ -27,7 +21,7 @@ case class PathSettings(reportPath: Option[File], analyzedPath: Seq[File], auxPa
 case class FilterSettings(includeFilters: Option[Node], excludeFilters: Option[Node])
 
 case class MiscSettings(
-  reportType: Option[ReportType], priority: Priority,
+  reportType: Option[FindBugsReportType], priority: FindBugsPriority,
   onlyAnalyze: Option[Seq[String]], maxMemory: Int,
   analyzeNestedArchives: Boolean, sortReportByClassNames: Boolean,
-  effort: Effort, failOnError: Boolean, pluginList: Seq[String])
+  effort: FindBugsEffort, failOnError: Boolean, pluginList: Seq[String])

@@ -13,7 +13,7 @@ package com.lenioapp.sbt.findbugs
 
 import java.io.File
 
-import com.lenioapp.sbt.findbugs.ReportType.ReportType
+import com.lenioapp.sbt.findbugs.FindBugsReportType.FindBugsReportType
 import sbt.Def.Initialize
 import sbt.Keys._
 import sbt._
@@ -35,11 +35,11 @@ object FindBugsPlugin extends AutoPlugin {
     /** The path to the classes not to be analyzed but referenced by analyzed ones. Defaults to <code>dependencyClasspath in Compile</code>. */
     val findbugsAuxiliaryPath = TaskKey[Seq[File]]("findbugs-auxiliary-path")
     /** Type of report to create. Defaults to <code>Some(ReportType.Xml)</code>. */
-    val findbugsReportType = SettingKey[Option[ReportType]]("findbugs-report-type")
+    val findbugsReportType = SettingKey[Option[FindBugsReportType]]("findbugs-report-type")
     /** Priority of bugs shown. Defaults to <code>Priority.Medium</code>. */
-    val findbugsPriority = SettingKey[Priority]("findbugs-priority")
+    val findbugsPriority = SettingKey[FindBugsPriority]("findbugs-priority")
     /** Effort put into bug finding. Defaults to <code>Effort.Default</code> */
-    val findbugsEffort = SettingKey[Effort]("findbugs-effort")
+    val findbugsEffort = SettingKey[FindBugsEffort]("findbugs-effort")
     /** Optionally, define which packages/classes should be analyzed (<code>None</code> by default) */
     val findbugsOnlyAnalyze = SettingKey[Option[Seq[String]]]("findbugs-only-analyze")
     /** Maximum amount of memory to allow for FindBugs (in MB). */
@@ -56,21 +56,30 @@ object FindBugsPlugin extends AutoPlugin {
     /** Optional filter file XML content defining which bug instances to exclude in the static analysis.
       * <code>None</code> by default. */
     val findbugsExcludeFilters = TaskKey[Option[Node]]("findbugs-exclude-filter")
+
+    val FindBugsReportType = com.lenioapp.sbt.findbugs.FindBugsReportType
+    val FindBugsPriority = com.lenioapp.sbt.findbugs.FindBugsPriority
+    val FindBugsEffort = com.lenioapp.sbt.findbugs.FindBugsEffort
+
+    /**
+      * Runs findbugs
+      *
+      * @param conf The configuration (Compile or Test) in which context to execute the checkstyle command
+      */
+    def findbugsTask(conf: Configuration): Initialize[Task[Unit]] = Def.task {
+      val filterSettings = ((findbugsIncludeFilters in conf, findbugsExcludeFilters in conf) map FilterSettings).value
+      val pathSettings = ((findbugsReportPath in conf, findbugsAnalyzedPath in conf, findbugsAuxiliaryPath in conf) map PathSettings dependsOn (compile in conf)).value
+      val miscSettings = ((findbugsReportType, findbugsPriority, findbugsOnlyAnalyze, findbugsMaxMemory,
+        findbugsAnalyzeNestedArchives, findbugsSortReportByClassNames, findbugsEffort, findbugsFailOnError, findbugsPluginList) map MiscSettings).value
+
+      FindBugs.findbugs(findbugsClasspath.value, (managedClasspath in Compile).value,
+        pathSettings, filterSettings, miscSettings, javaHome.value, streams.value)
+    }
   }
 
   private val findbugsConfig = config("findbugs").hide
 
   import autoImport._
-
-  def findbugsTask(conf: Configuration): Initialize[Task[Unit]] = Def.task {
-    val filterSettings = ((findbugsIncludeFilters in conf, findbugsExcludeFilters in conf) map FilterSettings).value
-    val pathSettings = ((findbugsReportPath in conf, findbugsAnalyzedPath in conf, findbugsAuxiliaryPath in conf) map PathSettings dependsOn (compile in conf)).value
-    val miscSettings = ((findbugsReportType, findbugsPriority, findbugsOnlyAnalyze, findbugsMaxMemory,
-      findbugsAnalyzeNestedArchives, findbugsSortReportByClassNames, findbugsEffort, findbugsFailOnError, findbugsPluginList) map MiscSettings).value
-
-    FindBugs.findbugs(findbugsClasspath.value, (managedClasspath in Compile).value,
-      pathSettings, filterSettings, miscSettings, javaHome.value, streams.value)
-  }
 
   override def projectConfigurations: Seq[Configuration] = Seq(
     findbugsConfig
@@ -83,9 +92,9 @@ object FindBugsPlugin extends AutoPlugin {
       "com.google.code.findbugs" % "jsr305" % "3.0.1" % "findbugs->default"
     ),
     findbugsPluginList := Seq(),
-    findbugsReportType := Some(ReportType.Xml),
-    findbugsPriority := Priority.Medium,
-    findbugsEffort := Effort.Default,
+    findbugsReportType := Some(com.lenioapp.sbt.findbugs.FindBugsReportType.Xml),
+    findbugsPriority := com.lenioapp.sbt.findbugs.FindBugsPriority.Medium,
+    findbugsEffort := com.lenioapp.sbt.findbugs.FindBugsEffort.Default,
     findbugsMaxMemory := 1024,
     findbugsAnalyzeNestedArchives := true,
     findbugsSortReportByClassNames := false,

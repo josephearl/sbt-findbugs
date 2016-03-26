@@ -2,7 +2,7 @@ name := "findbugs-plugin-classpath"
 
 organization := "com.lenioapp"
 
-version := "2.1.0"
+version := "2.2.0"
 
 libraryDependencies += "com.mebigfatguy.fb-contrib" % "fb-contrib" % "6.6.0"
 

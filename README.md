@@ -9,7 +9,7 @@ This plugin currently uses FindBugs version 3.0.1.
 Add sbt-findbugs-plugin as a plugin in your projects `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("com.lenioapp" % "sbt-findbugs-plugin" % "2.1.0")
+addSbtPlugin("com.lenioapp" % "sbt-findbugs-plugin" % "2.2.0")
 ```
 
 sbt-findbugs-plugin is an AutoPlugin, so there is no need to modify the `build.sbt` file to enable it.
@@ -93,27 +93,41 @@ You can set FindBugs to fail the build if any bugs are found by setting `findbug
 findbugsFailOnError := true
 ```
 
+### Integration tests
+
+If you want to run FindBugs on your integration tests add the following to your `build.sbt`:
+```scala
+lazy val root = (project in file(".")).configs(IntegrationTest)
+
+Defaults.itSettings
+
+findbugs in IntegrationTest <<= findbugsTask(IntegrationTest),
+findbugsReportPath in IntegrationTest := Some(target(_ / "findbugs-integration-test-report.xml").value)
+findbugsAnalyzedPath in IntegrationTest := Seq((classDirectory in IntegrationTest).value)
+findbugsAuxiliaryPath in IntegrationTest := (dependencyClasspath in IntegrationTest).value.files
+```
+
 ## Settings
 
 ### `findbugsReportType`
 * *Description:* Optionally selects the output format for the FindBugs report.
-* *Accepts:* `Some(ReportType.{Xml, Html, PlainHtml, FancyHtml, FancyHistHtml, Emacs, Xdoc})`
-* *Default:* `Some(ReportType.Xml)`
+* *Accepts:* `Some(FindBugsReportType.{Xml, Html, PlainHtml, FancyHtml, FancyHistHtml, Emacs, Xdoc})`
+* *Default:* `Some(FindBugsReportType.Xml)`
 
 ### `findbugsReportPath`
 * *Description:* Target path of the report file to generate (optional).
 * *Accepts:* any legal file path
-* *Default:* `Some(target.value / "findbugs" / "report.xml")`
+* *Default:* `Some(target.value / "findbugs-report.xml")`
 
 ### `findbugsPriority`
 * *Description:* Suppress reporting of bugs based on priority.
-* *Accepts:* `Priority.{Relaxed, Low, Medium, High}`
-* *Default:* `Priority.Medium`
+* *Accepts:* `FindBugsPriority.{Relaxed, Low, Medium, High}`
+* *Default:* `FindBugsPriority.Medium`
 
 ### `findbugsEffort`
 * *Description:* Decide how much effort to put into analysis.
-* *Accepts:* `Effort.{Minimum, Default, Maximum}`
-* *Default:* `Effort.Default`
+* *Accepts:* `FindBugsEffort.{Minimum, Default, Maximum}`
+* *Default:* `FindBugsEffort.Default`
 
 ### `findbugsOnlyAnalyze`
 * *Description:* Optionally, define which packages/classes should be analyzed.

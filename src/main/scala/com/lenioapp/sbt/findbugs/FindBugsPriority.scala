@@ -11,15 +11,25 @@
  */
 package com.lenioapp.sbt.findbugs
 
-object ReportType extends Enumeration {
-  type ReportType = Value
-  
-  val Xml = Value("-xml")
-  val Html = Value("-html")
-  val PlainHtml = Value("-html:plain.xsl")
-  val FancyHtml = Value("-html:fancy.xsl")
-  val FancyHistHtml = Value("-html:fancy-hist.xsl")
-  val Emacs = Value("-emacs")
-  val Xdoc = Value("-xdocs")
+sealed abstract class FindBugsPriority
+
+object FindBugsPriority {
+
+  case object Relaxed extends FindBugsPriority {
+    override def toString = "-relaxed"
+  }
+
+  case object Low extends FindBugsPriority {
+    override def toString = "-low"
+  }
+
+  case object Medium extends FindBugsPriority {
+    override def toString = "-medium"
+  }
+
+  case object High extends FindBugsPriority {
+    override def toString = "-high"
+  }
+
 }
 

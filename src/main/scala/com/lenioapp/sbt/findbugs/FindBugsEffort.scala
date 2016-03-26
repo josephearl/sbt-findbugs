@@ -11,24 +11,20 @@
  */
 package com.lenioapp.sbt.findbugs
 
-sealed abstract class Priority
+sealed abstract class FindBugsEffort
 
-object Priority {
+object FindBugsEffort {
 
-  case object Relaxed extends Priority {
-    override def toString = "-relaxed"
+  case object Minimum extends FindBugsEffort {
+    override def toString = "min"
   }
 
-  case object Low extends Priority {
-    override def toString = "-low"
+  case object Default extends FindBugsEffort {
+    override def toString = "default"
   }
 
-  case object Medium extends Priority {
-    override def toString = "-medium"
-  }
-
-  case object High extends Priority {
-    override def toString = "-high"
+  case object Maximum extends FindBugsEffort {
+    override def toString = "max"
   }
 
 }

@@ -1,0 +1,3 @@
+# Check the build fails when running findbugs
+> it:findbugs
+$ exists target/findbugs-integration-test-report.xml

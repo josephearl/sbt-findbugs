@@ -9,7 +9,6 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
   def findbugs(findbugsClasspath: Classpath, compileClasspath: Classpath,
       paths: PathSettings, filters: FilterSettings, misc: MiscSettings, javaHome: Option[File],
       streams: TaskStreams): Unit = {
-
     val log = streams.log
 
     IO.withTemporaryDirectory { filterPath =>
