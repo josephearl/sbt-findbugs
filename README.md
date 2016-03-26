@@ -2,11 +2,11 @@
 
 An SBT 0.13+ plugin for running FindBugs on Java classes. For more information about FindBugs, see <http://findbugs.sourceforge.net>.
 
-This plugin currently uses version 3.0.0 of FindBugs.
+This plugin currently uses FindBugs version 3.0.0.
 
 ## Getting started
 
-Add sbt-findbugs-plugin as a plugin in your project's `project/plugins.sbt`:
+Add sbt-findbugs-plugin as a plugin in your projects `project/plugins.sbt`:
 
 ```scala
 addSbtPlugin("com.lenioapp" % "sbt-findbugs-plugin" % "2.0.0")
@@ -20,7 +20,13 @@ If you want to modify any of the default settings, you should add the following 
 import com.lenioapp.sbt.findbugs._
 ```
 
-## Defining exclude/include filters
+## Usage
+
+You can run FindBugs over your Java classes with the `findbugs` task. You can run FindBugs over your Java test classes with the `test:findbugs` task.
+
+The FindBugs report is output to `target/findbugs-report.xml` by default. This can be changed by setting the value of `FindBugs.outputFile`. By default `test:findbugs` outputs to `target/findbugs-test-report.xml`, this can be changed by setting the value of `FindBugs.outputFile in Test`.
+
+You can define include/exclude filters either inline in the `build.sbt` or in an external XML file.
 
 ### Defining filters inline
 
@@ -29,12 +35,12 @@ Just use Scala inline XML for the setting, for example:
 ```scala
 FindBugs.includeFilters := Some(<FindBugsFilter>
   <Match>
-    <Class name="de.johoop.Meep" />
+    <Class name="com.lenioapp.example.Example" />
   </Match>
 </FindBugsFilter>)
 ```
 
-### Using filter files
+### Defining filters using filter files
 
 You can also read the filter settings from files in a more conventional way:
 
@@ -42,7 +48,7 @@ You can also read the filter settings from files in a more conventional way:
 FindBugs.includeFilters := Some(baseDirectory.value / "findbugs-include-filters.xml")
 ```
 
-Or, when your configuration is zipped and previously published to a local repo:
+Or, if your configuration is zipped and previously published to a local repo:
 
 ```scala
 FindBugs.includeFilters := {
@@ -55,19 +61,55 @@ FindBugs.includeFilters := {
 }
 ```
 
-## Settings
+### Using FindBugs plugins
 
-(see also the [FindBugs documentation](http://findbugs.sourceforge.net/manual/running.html#commandLineOptions))
+To use FindBugs plugins such as [fb-contrib](http://fb-contrib.sourceforge.net) or [find-sec-bugs](http://find-sec-bugs.github.io) use the `pluginList` setting:
+
+```scala
+libraryDependencies += "com.mebigfatguy.fb-contrib" % "fb-contrib" % "6.6.0"
+
+FindBugs.pluginList += s"${ivyPaths.value.ivyHome.get.absolutePath}/cache/com.mebigfatguy.fb-contrib/fb-contrib/jars/fb-contrib-6.6.0.jar"
+```
+
+Or download the plugins to your projects `lib` directory:
+
+```scala
+FindBugs.pluginList += file("lib/fb-contrib-6.6.0.jar").absolutePath
+```
+
+### Running FindBugs automatically
+
+To run FindBugs automatically after compilation add the following to your `build.sbt`:
+
+```scala
+(FindBugs.findbugs in Compile) <<= (FindBugs.findbugs in Compile) triggeredBy (compile in Compile)
+```
+
+To run FindBugs automatically after test compilation:
+
+```scala
+(FindBugs.findbugs in Test) <<= (FindBugs.findbugs in Test) triggeredBy (compile in Test)
+```
+
+### Failing the build
+
+You can set FindBugs to fail the build if any bugs are found by setting `failOnError`:
+
+```scala
+FindBugs.failOnError := true
+```
+
+## Settings
 
 ### `reportType`
 * *Description:* Optionally selects the output format for the FindBugs report.
 * *Accepts:* `Some(ReportType.{Xml, Html, PlainHtml, FancyHtml, FancyHistHtml, Emacs, Xdoc})`
 * *Default:* `Some(ReportType.Xml)`
 
-### `reportPath`
+### `outputPath`
 * *Description:* Target path of the report file to generate (optional).
 * *Accepts:* any legal file path
-* *Default:* `Some(crossTarget.value / "findbugs" / "report.xml")`
+* *Default:* `Some(target.value / "findbugs" / "report.xml")`
 
 ### `priority`
 * *Description:* Suppress reporting of bugs based on priority.
@@ -119,7 +161,7 @@ FindBugs.includeFilters := {
 * *Accepts:* any `sbt.Path`
 * *Default:* `Seq(classDirectory in Compile value)`
 
-### `plugins`
-* *Description:* A list of FindBugs plugin jars enable.
-* *Accepts:* any `Seq[File]`
+### `pluginList`
+* *Description:* A list of FindBugs plugins to enable, can be an absolute path to a plugin or the name of a plugin in the FindBugs optional plugins directory `~/.findbugs/optionalPlugin`.
+* *Accepts:* any `Seq[String]`
 * *Default:* `Seq()`

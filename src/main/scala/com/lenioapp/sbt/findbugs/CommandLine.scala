@@ -38,15 +38,15 @@ private[findbugs] trait CommandLine extends AutoPlugin with Filters {
       if (paths.reportPath.isDefined && misc.reportType.isEmpty)
         sys.error("If a report path is defined, a report type is required!")
 
-      val auxClasspath = paths.auxPath ++ (findbugsClasspath.files filter (_.getName startsWith "jsr305")) 
-      
+      val auxClasspath = paths.auxPath ++ (findbugsClasspath.files filter (_.getName startsWith "jsr305"))
+
       addOnlyAnalyzeParameter(addSortByClassParameter(addFilterFiles(filters, filterPath, 
         misc.reportType.map(`type` => List(`type`.toString)).getOrElse(Nil) ++
         paths.reportPath.map(path => List("-output", path.absolutePath)).getOrElse(Nil) ++ List(
           "-nested:%b".format(misc.analyzeNestedArchives),
           "-auxclasspath", commandLineClasspath(auxClasspath), misc.priority.toString,
           "-effort:%s".format(misc.effort.toString),
-          "-pluginList", misc.plugins.map(f => f.getAbsolutePath).mkString(":")))))
+          "-pluginList", misc.pluginList.mkString(":")))))
     }
   
     def addOnlyAnalyzeParameter(arguments: List[String]) = misc.onlyAnalyze match {

@@ -1,4 +1,4 @@
-package de.johoop.findbugs4sbt;
+package com.lenioapp.sbt.findbugs;
 
 import java.util.List;
 

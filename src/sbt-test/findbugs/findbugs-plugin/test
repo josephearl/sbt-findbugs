@@ -1,0 +1,3 @@
+# Check the build fails when running findbugs with the plugin
+-> compile:findbugs
+$ exists target/findbugs-report.xml

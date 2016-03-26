@@ -1,0 +1,3 @@
+# Check that the bug is not found (and build not failed) without fb-contrib
+> compile:findbugs
+$ exists target/findbugs-report.xml
