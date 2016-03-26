@@ -1,6 +1,6 @@
 /*
  * This file is part of findbugs4sbt.
- * 
+ *
  * Copyright (c) 2010-2014 Joachim Hofer & contributors
  * All rights reserved.
  *
@@ -9,16 +9,15 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package de.johoop.findbugs4sbt
+package com.lenioapp.sbt.findbugs
 
 import sbt._
 
-import scala.xml.Node
-import scala.xml.XML
+import scala.xml.{Node, XML}
 
-private[findbugs4sbt] trait Filters extends AutoPlugin {
+private[findbugs] trait Filters extends AutoPlugin {
 
-  private[findbugs4sbt] def addFilterFiles(filters: FilterSettings, filterPath: File, options: List[String]) = {
+  private[findbugs] def addFilterFiles(filters: FilterSettings, filterPath: File, options: List[String]) = {
     def addIncludeFilterFile(options: List[String]) = addFilterFile(options, filters.includeFilters, "include")
     def addExcludeFilterFile(options: List[String]) = addFilterFile(options, filters.excludeFilters, "exclude") 
 

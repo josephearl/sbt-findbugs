@@ -1,6 +1,6 @@
 /*
  * This file is part of findbugs4sbt.
- * 
+ *
  * Copyright (c) 2010-2014 Joachim Hofer & contributors
  * All rights reserved.
  *
@@ -9,11 +9,11 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package de.johoop.findbugs4sbt
+package com.lenioapp.sbt.findbugs
+
+sealed abstract class Priority
 
 object Priority {
-
-  sealed abstract class Priority
 
   case object Relaxed extends Priority {
     override def toString = "-relaxed"

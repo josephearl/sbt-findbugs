@@ -1,6 +1,6 @@
 /*
  * This file is part of findbugs4sbt.
- * 
+ *
  * Copyright (c) 2010-2014 Joachim Hofer & contributors
  * All rights reserved.
  *
@@ -9,20 +9,14 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package de.johoop.findbugs4sbt
-
-import sbt._
-import sbt.Keys._
-
-import scala.xml.Node
+package com.lenioapp.sbt.findbugs
 
 import java.io.File
 
-import ReportType._
-import Priority._
-import Effort._
+import sbt.Keys._
+import sbt._
 
-private[findbugs4sbt] trait CommandLine extends AutoPlugin with Filters {
+private[findbugs] trait CommandLine extends AutoPlugin with Filters {
 
   def commandLine(findbugsClasspath: Classpath, compileClasspath: Classpath, 
       paths: PathSettings, filters: FilterSettings, filterPath: File, misc: MiscSettings, streams: TaskStreams) = {

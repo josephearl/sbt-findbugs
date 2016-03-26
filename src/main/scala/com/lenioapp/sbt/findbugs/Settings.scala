@@ -9,7 +9,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package de.johoop.findbugs4sbt
+package com.lenioapp.sbt.findbugs
 
 import sbt._
 import Keys._
@@ -22,11 +22,11 @@ import Effort._
 import scala.xml.Node
 import java.io.File
 
-private[findbugs4sbt] case class PathSettings(reportPath: Option[File], analyzedPath: Seq[File], auxPath: Seq[File])
+private[findbugs] case class PathSettings(reportPath: Option[File], analyzedPath: Seq[File], auxPath: Seq[File])
 
-private[findbugs4sbt] case class FilterSettings(includeFilters: Option[Node], excludeFilters: Option[Node])
+private[findbugs] case class FilterSettings(includeFilters: Option[Node], excludeFilters: Option[Node])
 
-private[findbugs4sbt] case class MiscSettings(
+private[findbugs] case class MiscSettings(
   reportType: Option[ReportType], priority: Priority,
   onlyAnalyze: Option[Seq[String]], maxMemory: Int,
   analyzeNestedArchives: Boolean, sortReportByClassNames: Boolean,

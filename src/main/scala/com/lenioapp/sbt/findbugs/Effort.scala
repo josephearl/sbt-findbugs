@@ -1,6 +1,6 @@
 /*
  * This file is part of findbugs4sbt.
- * 
+ *
  * Copyright (c) 2010-2014 Joachim Hofer & contributors
  * All rights reserved.
  *
@@ -9,17 +9,23 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package de.johoop.findbugs4sbt
+package com.lenioapp.sbt.findbugs
 
-object ReportType extends Enumeration {
-  type ReportType = Value
-  
-  val Xml = Value("-xml")
-  val Html = Value("-html")
-  val PlainHtml = Value("-html:plain.xsl")
-  val FancyHtml = Value("-html:fancy.xsl")
-  val FancyHistHtml = Value("-html:fancy-hist.xsl")
-  val Emacs = Value("-emacs")
-  val Xdoc = Value("-xdocs")
+sealed abstract class Effort
+
+object Effort {
+
+  case object Minimum extends Effort {
+    override def toString = "min"
+  }
+
+  case object Default extends Effort {
+    override def toString = "default"
+  }
+
+  case object Maximum extends Effort {
+    override def toString = "max"
+  }
+
 }
 

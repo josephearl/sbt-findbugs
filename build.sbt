@@ -2,9 +2,9 @@ sbtPlugin := true
 
 name := "sbt-findbugs-plugin"
 
-organization := "de.johoop"
+organization := "com.lenioapp"
 
-version := "1.4.2-SNAPSHOT"
+version := "2.0.0-SNAPSHOT"
 
 scalaVersion := "2.10.4"
 

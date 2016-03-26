@@ -1,6 +1,6 @@
 /*
  * This file is part of findbugs4sbt.
- * 
+ *
  * Copyright (c) 2010-2014 Joachim Hofer & contributors
  * All rights reserved.
  *
@@ -9,13 +9,13 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package de.johoop.findbugs4sbt
+package com.lenioapp.sbt.findbugs
 
 import sbt._
 import scala.util.control.NonFatal
 
-private[findbugs4sbt] trait CommandLineExecutor {
-  private[findbugs4sbt] def executeCommandLine(commandLine: List[String], javaHome: Option[File], log: Logger) = try {
+private[findbugs] trait CommandLineExecutor {
+  private[findbugs] def executeCommandLine(commandLine: List[String], javaHome: Option[File], log: Logger) = try {
     val exitValue = Fork.java(
     	ForkOptions(javaHome = javaHome, outputStrategy = Some(new LoggedOutput(log))), 
     	commandLine)

@@ -1,11 +1,9 @@
-import de.johoop.findbugs4sbt.FindBugs
+import com.lenioapp.sbt.findbugs._
 
 name := "findbugs-fail"
 
-organization := "de.johoop"
+organization := "com.lenioapp"
 
-version := "1.4.1-SNAPSHOT"
+version := "2.0.0-SNAPSHOT"
 
-FindBugs.findbugsFailOnError := true
-
-FindBugs.findbugsReportPath := Some(target.value / "findbugs" / "report.xml")
+FindBugs.failOnError := true
