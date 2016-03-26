@@ -22,7 +22,7 @@ import ReportType._
 import Priority._
 import Effort._
 
-private[findbugs4sbt] trait CommandLine extends Plugin with Filters with Settings {
+private[findbugs4sbt] trait CommandLine extends AutoPlugin with Filters {
 
   def commandLine(findbugsClasspath: Classpath, compileClasspath: Classpath, 
       paths: PathSettings, filters: FilterSettings, filterPath: File, misc: MiscSettings, streams: TaskStreams) = {
