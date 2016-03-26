@@ -4,7 +4,7 @@ name := "findbugs-plugin-cp"
 
 organization := "com.lenioapp"
 
-version := "2.0.0-SNAPSHOT"
+version := "2.0.0"
 
 libraryDependencies += "com.mebigfatguy.fb-contrib" % "fb-contrib" % "6.6.0"
 

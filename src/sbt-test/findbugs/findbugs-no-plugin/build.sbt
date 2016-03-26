@@ -4,6 +4,6 @@ name := "findbugs-no-plugin"
 
 organization := "com.lenioapp"
 
-version := "2.0.0-SNAPSHOT"
+version := "2.0.0"
 
 FindBugs.failOnError := true
