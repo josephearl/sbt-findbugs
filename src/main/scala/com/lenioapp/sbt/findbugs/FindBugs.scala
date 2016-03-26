@@ -14,6 +14,7 @@ package com.lenioapp.sbt.findbugs
 import java.io.File
 
 import com.lenioapp.sbt.findbugs.ReportType.ReportType
+import sbt.Def.Initialize
 import sbt.Keys._
 import sbt._
 
@@ -24,10 +25,6 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
 
   val findbugs = TaskKey[Unit]("findbugs")
   val findbugsClasspath = TaskKey[Classpath]("findbugs-classpath")
-  val findbugsPathSettings = TaskKey[PathSettings]("findbugs-path-settings")
-  val findbugsFilterSettings = TaskKey[FilterSettings]("findbugs-filter-settings")
-  val findbugsMiscSettings = TaskKey[MiscSettings]("findbugs-misc-settings")
-
   /** Plugin list for FindBugs. Defaults to <code>Seq()</code>. */
   val plugins = TaskKey[Seq[File]]("findbugs-plugins")
   /** Output path for FindBugs reports. Defaults to <code>Some(crossTarget / "findbugs" / "findbugs.xml")</code>. */
@@ -58,6 +55,16 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
   /** Optional filter file XML content defining which bug instances to exclude in the static analysis.
     * <code>None</code> by default. */
   val excludeFilters = TaskKey[Option[Node]]("findbugs-exclude-filter")
+
+  def findbugsTask(conf: Configuration): Initialize[Task[Unit]] = Def.task {
+    val filterSettings = ((includeFilters in conf, excludeFilters in conf) map FilterSettings).value
+    val pathSettings = ((reportPath in conf, analyzedPath in conf, auxiliaryPath in conf) map PathSettings dependsOn (compile in conf)).value
+    val miscSettings = ((reportType, priority, onlyAnalyze, maxMemory,
+      analyzeNestedArchives, sortReportByClassNames, effort, failOnError, plugins) map MiscSettings).value
+
+    findbugsTask(findbugsClasspath.value, (managedClasspath in Compile).value,
+      pathSettings, filterSettings, miscSettings, javaHome.value, streams.value)
+  }
 
   def findbugsTask(findbugsClasspath: Classpath, compileClasspath: Classpath,
       paths: PathSettings, filters: FilterSettings, misc: MiscSettings, javaHome: Option[File],
@@ -97,42 +104,33 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
     findbugsConfig
   )
 
-  override def projectSettings: Seq[Def.Setting[_]] = Seq(
+  private lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
+    findbugsClasspath := Classpaths managedJars (findbugsConfig, classpathTypes.value, update.value),
     libraryDependencies ++= Seq(
       "com.google.code.findbugs" % "findbugs" % "3.0.0" % "findbugs->default",
       "com.google.code.findbugs" % "jsr305" % "3.0.0" % "findbugs->default"
     ),
-
-    findbugs <<= (findbugsClasspath, managedClasspath in Compile,
-      findbugsPathSettings, findbugsFilterSettings, findbugsMiscSettings, javaHome, streams) map findbugsTask,
-    findbugs in Test <<= (findbugsClasspath, managedClasspath in Compile,
-      findbugsPathSettings in Test, findbugsFilterSettings, findbugsMiscSettings, javaHome, streams) map findbugsTask,
-
-    findbugsPathSettings <<= (reportPath, analyzedPath, auxiliaryPath) map PathSettings dependsOn (compile in Compile),
-    findbugsPathSettings in Test <<= (reportPath in Test, analyzedPath in Test, auxiliaryPath in Test) map PathSettings dependsOn (compile in Test),
-
-    findbugsFilterSettings <<= (includeFilters, excludeFilters) map FilterSettings,
-    findbugsMiscSettings <<= (reportType, priority, onlyAnalyze, maxMemory,
-      analyzeNestedArchives, sortReportByClassNames, effort, failOnError, plugins) map MiscSettings,
-
-    findbugsClasspath := Classpaths managedJars (findbugsConfig, classpathTypes.value, update.value),
-
     plugins := Seq(),
     reportType := Some(ReportType.Xml),
     priority := Priority.Medium,
     effort := Effort.Default,
-    reportPath := Some(target.value / "findbugs-report.xml"),
-    reportPath in Test := Some(target.value / "findbugs-test-report.xml"),
     maxMemory := 1024,
     analyzeNestedArchives := true,
     sortReportByClassNames := false,
     failOnError := false,
-    analyzedPath := Seq((classDirectory in Compile).value),
-    analyzedPath in Test := Seq((classDirectory in Test).value),
-    auxiliaryPath := (dependencyClasspath in Compile).value.files,
-    auxiliaryPath in Test := (dependencyClasspath in Test).value.files,
     onlyAnalyze := None,
     includeFilters := None,
     excludeFilters := None
   )
+
+  override lazy val projectSettings: Seq[Def.Setting[_]] = Seq(
+    findbugs <<= findbugsTask(Compile),
+    findbugs in Test <<= findbugsTask(Test),
+    reportPath := Some(target.value / "findbugs-report.xml"),
+    reportPath in Test := Some(target.value / "findbugs-test-report.xml"),
+    analyzedPath := Seq((classDirectory in Compile).value),
+    analyzedPath in Test := Seq((classDirectory in Test).value),
+    auxiliaryPath := (dependencyClasspath in Compile).value.files,
+    auxiliaryPath in Test := (dependencyClasspath in Test).value.files
+  ) ++ commonSettings
 }
