@@ -1,8 +1,5 @@
-import com.lenioapp.sbt.findbugs._
-
 name := "findbugs-test"
 
 organization := "com.lenioapp"
 
-version := "2.0.0"
-
+version := "2.1.0"
