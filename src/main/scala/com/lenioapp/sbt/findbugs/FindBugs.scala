@@ -103,8 +103,12 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
 
     findbugs <<= (findbugsClasspath, managedClasspath in Compile,
       findbugsPathSettings, findbugsFilterSettings, findbugsMiscSettings, javaHome, streams) map findbugsTask,
+    findbugs in Test <<= (findbugsClasspath, managedClasspath in Compile,
+      findbugsPathSettings in Test, findbugsFilterSettings, findbugsMiscSettings, javaHome, streams) map findbugsTask,
 
     findbugsPathSettings <<= (reportPath, analyzedPath, auxiliaryPath) map PathSettings dependsOn (compile in Compile),
+    findbugsPathSettings in Test <<= (reportPath in Test, analyzedPath in Test, auxiliaryPath in Test) map PathSettings dependsOn (compile in Test),
+
     findbugsFilterSettings <<= (includeFilters, excludeFilters) map FilterSettings,
     findbugsMiscSettings <<= (reportType, priority, onlyAnalyze, maxMemory,
       analyzeNestedArchives, sortReportByClassNames, effort, failOnError) map MiscSettings,
@@ -115,12 +119,15 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
     priority := Priority.Medium,
     effort := Effort.Default,
     reportPath := Some(target.value / "findbugs-report.xml"),
+    reportPath in Test := Some(target.value / "findbugs-test-report.xml"),
     maxMemory := 1024,
     analyzeNestedArchives := true,
     sortReportByClassNames := false,
     failOnError := false,
     analyzedPath := Seq(classDirectory in Compile value),
+    analyzedPath in Test := Seq(classDirectory in Test value),
     auxiliaryPath := (dependencyClasspath in Compile).value.files,
+    auxiliaryPath in Test := (dependencyClasspath in Test).value.files,
     onlyAnalyze := None,
     includeFilters := None,
     excludeFilters := None
