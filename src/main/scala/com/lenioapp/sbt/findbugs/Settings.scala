@@ -30,4 +30,4 @@ private[findbugs] case class MiscSettings(
   reportType: Option[ReportType], priority: Priority,
   onlyAnalyze: Option[Seq[String]], maxMemory: Int,
   analyzeNestedArchives: Boolean, sortReportByClassNames: Boolean,
-  effort: Effort, failOnError: Boolean, plugins: Seq[String])
+  effort: Effort, failOnError: Boolean, plugins: Seq[File])

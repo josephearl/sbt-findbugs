@@ -45,7 +45,7 @@ private[findbugs] trait CommandLine extends AutoPlugin with Filters {
           "-nested:%b".format(misc.analyzeNestedArchives),
           "-auxclasspath", commandLineClasspath(auxClasspath), misc.priority.toString,
           "-effort:%s".format(misc.effort.toString),
-          "-pluginList", misc.plugins.mkString(":")))))
+          "-pluginList", misc.plugins.map(f => f.getAbsolutePath).mkString(":")))))
     }
   
     def addOnlyAnalyzeParameter(arguments: List[String]) = misc.onlyAnalyze match {

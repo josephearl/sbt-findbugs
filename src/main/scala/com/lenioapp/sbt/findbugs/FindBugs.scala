@@ -29,7 +29,7 @@ object FindBugs extends AutoPlugin with CommandLine with CommandLineExecutor {
   val findbugsMiscSettings = TaskKey[MiscSettings]("findbugs-misc-settings")
 
   /** Plugin list for FindBugs. Defaults to <code>Seq()</code>. */
-  val plugins = TaskKey[Seq[String]]("findbugs-plugins")
+  val plugins = TaskKey[Seq[File]]("findbugs-plugins")
   /** Output path for FindBugs reports. Defaults to <code>Some(crossTarget / "findbugs" / "findbugs.xml")</code>. */
   val reportPath = SettingKey[Option[File]]("findbugs-report-path")
   /** The path to the classes to be analyzed. Defaults to <code>target / classes</code>. */
