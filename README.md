@@ -1,32 +1,24 @@
 # sbt-findbugs-plugin
 
-This SBT plug-in enables you to analyze your Java code with the help of the great **[FindBugs](http://findbugs.sourceforge.net/)** tool. It defines a `findbugs` sbt action for that purpose.
+An SBT 0.13+ plugin for running FindBugs on Java classes. For more information about FindBugs, see <http://findbugs.sourceforge.net>.
 
-Version 1.4.0 of this plug-in is available for SBT 0.13.x.
+This plugin currently uses version 3.0.0 of FindBugs.
 
-## Getting sbt-findbugs-plugin
+## Getting started
 
-If you want to go bleeding edge:
-
-    sbt publishLocal
-
-## Adding sbt-findbugs-plugin as a plug-in to your project
-
-Add the following to your project's `build.sbt` file:
+Add sbt-findbugs-plugin as a plugin in your project's `project/plugins.sbt`:
 
 ```scala
-import de.johoop.findbugs4sbt.FindBugs
-
-FindBugs.findbugsSettings
+addSbtPlugin("com.lenioapp" % "sbt-findbugs-plugin" % "2.0.0")
 ```
 
-Also, you have to add the plugin dependency to your project's `./project/plugins.sbt` or the global `.sbt/plugins/build.sbt`:
+sbt-findbugs-plugin is an AutoPlugin, so there is no need to modify the `build.sbt` file to enable it.
+
+If you want to modify any of the default settings, you should add the following import to build.sbt, however:
 
 ```scala
-addSbtPlugin("de.johoop" % "findbugs4sbt" % "1.4.0")
+import com.lenioapp.sbt.findbugs._
 ```
-
-The old settings specified below are still mostly valid, but they're now specified using the settings system of SBT 0.13.
 
 ## Defining exclude/include filters
 
@@ -35,7 +27,7 @@ The old settings specified below are still mostly valid, but they're now specifi
 Just use Scala inline XML for the setting, for example:
 
 ```scala
-FindBugs.findbugsIncludeFilters := Some(<FindBugsFilter>
+FindBugs.includeFilters := Some(<FindBugsFilter>
   <Match>
     <Class name="de.johoop.Meep" />
   </Match>
@@ -47,13 +39,13 @@ FindBugs.findbugsIncludeFilters := Some(<FindBugsFilter>
 You can also read the filter settings from files in a more conventional way:
 
 ```scala
-FindBugs.findbugsIncludeFilters := Some(baseDirectory.value / "findbugs-include-filters.xml")
+FindBugs.includeFilters := Some(baseDirectory.value / "findbugs-include-filters.xml")
 ```
 
 Or, when your configuration is zipped and previously published to a local repo:
 
 ```scala
-findbugsIncludeFilters := {
+FindBugs.includeFilters := {
   val configFiles = update.value.select(module = moduleFilter(name = "velvetant-sonar"))
   val configFile = configFiles.headOption flatMap { zippedFile =>
     IO.unzip(zippedFile, target.value / "rules") find (_.name contains "velvetant-sonar-findbugs.xml")
@@ -67,74 +59,67 @@ findbugsIncludeFilters := {
 
 (see also the [FindBugs documentation](http://findbugs.sourceforge.net/manual/running.html#commandLineOptions))
 
-### `findbugsReportType`
+### `reportType`
 * *Description:* Optionally selects the output format for the FindBugs report.
 * *Accepts:* `Some(ReportType.{Xml, Html, PlainHtml, FancyHtml, FancyHistHtml, Emacs, Xdoc})`
 * *Default:* `Some(ReportType.Xml)`
 
-### `findbugsReportPath`
+### `reportPath`
 * *Description:* Target path of the report file to generate (optional).
 * *Accepts:* any legal file path
 * *Default:* `Some(crossTarget.value / "findbugs" / "report.xml")`
 
-### `findbugsPriority`
+### `priority`
 * *Description:* Suppress reporting of bugs based on priority.
 * *Accepts:* `Priority.{Relaxed, Low, Medium, High}`
 * *Default:* `Priority.Medium`
 
-### `findbugsEffort`
+### `effort`
 * *Description:* Decide how much effort to put into analysis.
 * *Accepts:* `Effort.{Minimum, Default, Maximum}`
 * *Default:* `Effort.Default`
 
-### `findbugsOnlyAnalyze`
+### `onlyAnalyze`
 * *Description:* Optionally, define which packages/classes should be analyzed.
 * *Accepts:* An option containing a `List[String]` of packages and classes.
 * *Default:* `None` (meaning: analyze everything).
 
-### `findbugsMaxMemory`
+### `maxMemory`
 * *Description:* Maximum amount of memory to allow for FindBugs (in MB).
 * *Accepts:* any reasonable amount of memory as an integer value
 * *Default:* `1024`
 
-### `findbugsAnalyzeNestedArchives`
+### `analyzeNestedArchives`
 * *Description:* Whether FindBugs should analyze nested archives or not.
 * *Accepts:* `true` and `false`
 * *Default:* `true`
 
-### `findbugsSortReportByClassNames`
+### `sortReportByClassNames`
 * *Description:* Whether the reported bug instances should be sorted by class name or not.
 * *Accepts:* `true` and `false`
 * *Default:* `false`
 
-### `findbugsFailOnError`
+### `failOnError`
 * *Description:* Whether the build should be failed if there are any reported bug instances.
 * *Accepts:* `true` and `false`
 * *Default:* `false`
 
-### `findbugsIncludeFilters`
+### `includeFilters`
 * *Description:* Optional filter file XML content defining which bug instances to include in the static analysis.
 * *Accepts:* `None` and `Option[Node]`
 * *Default:* `None` (no include filters).
 
-### `findbugsExcludeFilters`
+### `excludeFilters`
 * *Description:* Optional filter file XML content defining which bug instances to exclude in the static analysis.
 * *Accepts:* `None` and `Some[Node]`
 * *Default:* `None` (no exclude filters).
 
-### `findbugsAnalyzedPath`
+### `analyzedPath`
 * *Description:* The path to the classes to be analyzed.
 * *Accepts:* any `sbt.Path`
 * *Default:* `Seq(classDirectory in Compile value)`
 
-## Contributors
-
-Thanks to [@asflierl](http://github.com/asflierl) and [@anishathalye](http://github.com/anishathalye) for their contributions!
-
-## License
-
-Copyright (c) 2011 - 2014 Joachim Hofer & contributors
-
-All rights reserved.
-
-This program and the accompanying materials are made available under the terms of the **Eclipse Public License v1.0** which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+### `plugins`
+* *Description:* A list of FindBugs plugin jars enable.
+* *Accepts:* any `Seq[File]`
+* *Default:* `Seq()`
