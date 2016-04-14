@@ -56,10 +56,15 @@ object FindBugsPlugin extends AutoPlugin {
     /** Optional filter file XML content defining which bug instances to exclude in the static analysis.
       * <code>None</code> by default. */
     val findbugsExcludeFilters = TaskKey[Option[Node]]("findbugs-exclude-filter")
+    /** Optional set of XSLT transformations to be applied to the report.
+      * <code>None</code> by default. */
+    val findbugsXsltTransformations = SettingKey[Option[Set[FindBugsXSLTTransformation]]]("findbugs-xslt-transformations")
 
+    // Type aliases
     val FindBugsReportType = com.lenioapp.sbt.findbugs.FindBugsReportType
     val FindBugsPriority = com.lenioapp.sbt.findbugs.FindBugsPriority
     val FindBugsEffort = com.lenioapp.sbt.findbugs.FindBugsEffort
+    val FindBugsXSLTTransformation = com.lenioapp.sbt.findbugs.FindBugsXSLTTransformation
 
     /**
       * Runs findbugs
@@ -70,7 +75,8 @@ object FindBugsPlugin extends AutoPlugin {
       val filterSettings = ((findbugsIncludeFilters in conf, findbugsExcludeFilters in conf) map FilterSettings).value
       val pathSettings = ((findbugsReportPath in conf, findbugsAnalyzedPath in conf, findbugsAuxiliaryPath in conf) map PathSettings dependsOn (compile in conf)).value
       val miscSettings = ((findbugsReportType, findbugsPriority, findbugsOnlyAnalyze, findbugsMaxMemory,
-        findbugsAnalyzeNestedArchives, findbugsSortReportByClassNames, findbugsEffort, findbugsFailOnError, findbugsPluginList) map MiscSettings).value
+        findbugsAnalyzeNestedArchives, findbugsSortReportByClassNames, findbugsEffort, findbugsFailOnError,
+        findbugsPluginList, findbugsXsltTransformations) map MiscSettings).value
 
       FindBugs.findbugs(findbugsClasspath.value, (managedClasspath in Compile).value,
         pathSettings, filterSettings, miscSettings, javaHome.value, streams.value)
@@ -101,7 +107,8 @@ object FindBugsPlugin extends AutoPlugin {
     findbugsFailOnError := false,
     findbugsOnlyAnalyze := None,
     findbugsIncludeFilters := None,
-    findbugsExcludeFilters := None
+    findbugsExcludeFilters := None,
+    findbugsXsltTransformations := None
   )
 
   override lazy val projectSettings: Seq[Def.Setting[_]] = Seq(

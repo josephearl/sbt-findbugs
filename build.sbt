@@ -6,6 +6,8 @@ organization := "com.lenioapp"
 
 version := "2.3.0-SNAPSHOT"
 
+libraryDependencies += "net.sf.saxon" % "Saxon-HE" % "9.4"
+
 scalaVersion := "2.10.4"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-language:_")
