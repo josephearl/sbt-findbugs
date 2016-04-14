@@ -4,7 +4,7 @@ name := "sbt-findbugs-plugin"
 
 organization := "com.lenioapp"
 
-version := "2.2.0"
+version := "2.3.0-SNAPSHOT"
 
 scalaVersion := "2.10.4"
 
