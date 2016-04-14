@@ -1,7 +1,8 @@
 package com.lenioapp.sbt.findbugs
 
 import java.io.File
-
+import javax.xml.transform.stream.StreamSource
+import net.sf.saxon.s9api.Processor
 import sbt._
 import sbt.Keys._
 
@@ -17,14 +18,21 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
       executeCommandLine(cmd, javaHome, log)
     }
 
-    if (misc.failOnError) {
-      val issuesFound = paths.reportPath
-        .map(f => processIssues(log, f.getAbsolutePath, misc.failOnError))
-        .sum
+    if (paths.reportPath.exists(f => f.exists())) {
+      misc.xsltTransformations match {
+        case None => // Nothing to do
+        case Some(xslt) => applyXSLT(paths.reportPath.get, xslt)
+      }
 
-      if (issuesFound > 0) {
-        log.error(issuesFound + " issue(s) found in FindBugs report: " + paths.reportPath.get + "")
-        sys.exit(1)
+      if (misc.failOnError) {
+        val issuesFound = paths.reportPath
+          .map(f => processIssues(log, f.getAbsolutePath, misc.failOnError))
+          .sum
+
+        if (issuesFound > 0) {
+          log.error(issuesFound + " issue(s) found in FindBugs report: " + paths.reportPath.get + "")
+          sys.exit(1)
+        }
       }
     }
   }
@@ -97,5 +105,22 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
       log.error(bugType + " found in " + filename + ":" + lineNumber + ": " + errorMessage)
       1
     }).sum
+  }
+
+  private def applyXSLT(input: File, transformations: Set[FindBugsXSLTTransformation]): Unit = {
+    val processor = new Processor(false)
+    val source = processor.newDocumentBuilder().build(input)
+
+    transformations foreach { transform: FindBugsXSLTTransformation =>
+      val output = processor.newSerializer(transform.output)
+      val compiler = processor.newXsltCompiler()
+      val executor = compiler.compile(new StreamSource(transform.xslt))
+      val transformer = executor.load()
+      transformer.setInitialContextNode(source)
+      transformer.setDestination(output)
+      transformer.transform()
+      transformer.close()
+      output.close()
+    }
   }
 }

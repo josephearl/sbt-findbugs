@@ -24,4 +24,5 @@ case class MiscSettings(
   reportType: Option[FindBugsReportType], priority: FindBugsPriority,
   onlyAnalyze: Option[Seq[String]], maxMemory: Int,
   analyzeNestedArchives: Boolean, sortReportByClassNames: Boolean,
-  effort: FindBugsEffort, failOnError: Boolean, pluginList: Seq[String])
+  effort: FindBugsEffort, failOnError: Boolean, pluginList: Seq[String],
+  xsltTransformations: Option[Set[FindBugsXSLTTransformation]])
