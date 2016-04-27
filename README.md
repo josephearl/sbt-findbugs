@@ -9,7 +9,7 @@ This plugin currently uses FindBugs version 3.0.1.
 Add sbt-findbugs-plugin as a plugin in your projects `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("com.lenioapp" % "sbt-findbugs-plugin" % "2.2.0")
+addSbtPlugin("com.lenioapp" % "sbt-findbugs-plugin" % "2.3.0")
 ```
 
 sbt-findbugs-plugin is an AutoPlugin, so there is no need to modify the `build.sbt` file to enable it.
