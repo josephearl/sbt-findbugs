@@ -1,4 +1,4 @@
-# sbt-findbugs [![Build Status](https://travis-ci.org/lenioapp/sbt-findbugs.svg?branch=master)](https://travis-ci.org/lenioapp/sbt-findbugs)
+# sbt-findbugs [![Build Status](https://travis-ci.org/JosephEarl/sbt-findbugs.svg?branch=master)](https://travis-ci.org/JosephEarl/sbt-findbugs)
 
 An SBT 0.13+ plugin for running FindBugs on Java classes. For more information about FindBugs, see <http://findbugs.sourceforge.net>.
 
