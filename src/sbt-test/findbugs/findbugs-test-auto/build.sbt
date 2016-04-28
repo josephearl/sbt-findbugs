@@ -1,6 +1,6 @@
 name := "findbugs-test-auto"
 
-organization := "com.lenioapp"
+organization := "uk.co.josephearl"
 
 version := "2.2.0"
 

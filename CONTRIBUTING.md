@@ -1,6 +1,6 @@
 # Contribute
 
-These are the basic steps for contributing to sbt-findbugs-plugin:
+These are the basic steps for contributing to sbt-findbugs:
 
 1. Fork from the master branch
 2. Make your changes

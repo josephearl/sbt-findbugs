@@ -1,10 +1,10 @@
 sbtPlugin := true
 
-name := "sbt-findbugs-plugin"
+name := "sbt-findbugs"
 
-organization := "com.lenioapp"
+organization := "uk.co.josephearl"
 
-version := "2.3.0"
+version := "2.4.0"
 
 libraryDependencies += "net.sf.saxon" % "Saxon-HE" % "9.4"
 

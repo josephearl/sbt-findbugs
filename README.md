@@ -1,4 +1,4 @@
-# sbt-findbugs-plugin [![Build Status](https://travis-ci.org/lenioapp/sbt-findbugs-plugin.svg?branch=master)](https://travis-ci.org/lenioapp/sbt-findbugs-plugin)
+# sbt-findbugs [![Build Status](https://travis-ci.org/lenioapp/sbt-findbugs.svg?branch=master)](https://travis-ci.org/lenioapp/sbt-findbugs)
 
 An SBT 0.13+ plugin for running FindBugs on Java classes. For more information about FindBugs, see <http://findbugs.sourceforge.net>.
 
@@ -6,13 +6,13 @@ This plugin currently uses FindBugs version 3.0.1.
 
 ## Getting started
 
-Add sbt-findbugs-plugin as a plugin in your projects `project/plugins.sbt`:
+Add sbt-findbugs as a plugin in your projects `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("com.lenioapp" % "sbt-findbugs-plugin" % "2.3.0")
+addSbtPlugin("uk.co.josephearl" % "sbt-findbugs" % "2.4.0")
 ```
 
-sbt-findbugs-plugin is an AutoPlugin, so there is no need to modify the `build.sbt` file to enable it.
+sbt-findbugs is an AutoPlugin, so there is no need to modify the `build.sbt` file to enable it.
 
 ## Usage
 
@@ -29,7 +29,7 @@ Just use Scala inline XML for the setting, for example:
 ```scala
 findbugsIncludeFilters := Some(<FindBugsFilter>
   <Match>
-    <Class name="com.lenioapp.example.Example" />
+    <Class name="uk.co.josephearl.example.Example" />
   </Match>
 </FindBugsFilter>)
 ```
