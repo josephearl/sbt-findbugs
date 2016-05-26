@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1" sequence="0" timestamp="1464262941000" analysisTimestamp="1464263403082" release="">
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" rank="16" abbrev="Nm" category="BAD_PRACTICE">
+    <Class classname="views.html.user.testusers">
+      <SourceLine classname="views.html.user.testusers" sourcefile="testusers.template.scala" sourcepath="views/html/user/testusers.template.scala"/>
+    </Class>
+  </BugInstance>
+</BugCollection>

@@ -53,7 +53,7 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
     }
   }
 
-  private def checkReportTypeXml(log: Logger, message: String, reportType: Option[FindBugsReportType]): Unit = {
+  def checkReportTypeXml(log: Logger, message: String, reportType: Option[FindBugsReportType]): Unit = {
     reportType match {
       case Some(FindBugsReportType.Xml) =>
       case _ =>
@@ -62,20 +62,15 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
     }
   }
 
-  private def processIssues(log: Logger, outputLocation: String): Int = {
-    log.warn("processIssues " + outputLocation)
-
+  private[findbugs] def processIssues(log: Logger, outputLocation: String): Int = {
     val report = scala.xml.XML.loadFile(file(outputLocation))
     val warnings = report \\ "BugCollection" \\ "BugInstance"
-
-    log.warn("report " + report)
-    log.warn("warnings " + warnings)
 
     warnings.map(bug => {
       val bugType = bug.attribute("type").get.head.text
       val source = bug \\ "SourceLine" head
       val filename = source.attribute("sourcepath").get.head.text
-      val lineNumber = source.attribute("start").get.head.text
+      val lineNumber = source.attribute("start").map(_.head.text)
 
       val errorMessage = {
         val bugPriority = bug.attribute("priority").get.head.text
@@ -132,7 +127,7 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
           }).getOrElse("")
       }
 
-      log.error(bugType + " found in " + filename + ":" + lineNumber + ": " + errorMessage)
+      log.error(bugType + " found in " + filename + lineNumber.map(":" + _).getOrElse("") + ": " + errorMessage)
       1
     }).sum
   }
