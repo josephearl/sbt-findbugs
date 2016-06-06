@@ -13,3 +13,4 @@ project/plugins/project/
 project/plugins/target/
 .idea*
 *.iml
+*.DS_Store

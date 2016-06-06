@@ -1,0 +1,3 @@
+# Check the build fails because findbugsFailOnError only works with FindBugsReportType.Xml
+-> compile:findbugs
+$ exists target/findbugs-report.html

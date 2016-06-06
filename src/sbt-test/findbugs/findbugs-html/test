@@ -1,0 +1,3 @@
+# Check the build produces an html report
+> compile:findbugs
+$ exists target/findbugs-report.html

@@ -4,9 +4,13 @@ name := "sbt-findbugs"
 
 organization := "uk.co.josephearl"
 
-version := "2.4.0"
+version := "2.4.1"
 
-libraryDependencies += "net.sf.saxon" % "Saxon-HE" % "9.4"
+libraryDependencies ++= Seq(
+  "net.sf.saxon" % "Saxon-HE" % "9.4",
+  "org.scalatest" % "scalatest_2.10" % "2.2.1" % "test",
+  "junit" % "junit" % "4.11" % "test"
+)
 
 scalaVersion := "2.10.4"
 

@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamSource
 import net.sf.saxon.s9api.Processor
 import sbt._
 import sbt.Keys._
+import FindBugsReportType._
 
 object FindBugs extends Object with CommandLine with CommandLineExecutor {
   def findbugs(findbugsClasspath: Classpath, compileClasspath: Classpath,
@@ -32,12 +33,16 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
     if (paths.reportPath.exists(f => f.exists())) {
       misc.xsltTransformations match {
         case None => // Nothing to do
-        case Some(xslt) => applyXSLT(paths.reportPath.get, xslt)
+        case Some(xslt) =>
+          checkReportTypeXml(log, "`xsltTransformations := Some[Set[FindBugsXSLTTransformation]]`", misc.reportType)
+          applyXSLT(paths.reportPath.get, xslt)
       }
 
       if (misc.failOnError) {
+        checkReportTypeXml(log, "`findbugsFailOnError := true`", misc.reportType)
+
         val issuesFound = paths.reportPath
-          .map(f => processIssues(log, f.getAbsolutePath, misc.failOnError))
+          .map(f => processIssues(log, f.getAbsolutePath))
           .sum
 
         if (issuesFound > 0) {
@@ -48,7 +53,16 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
     }
   }
 
-  private def processIssues(log: Logger, outputLocation: String, failOnError: Boolean): Int = {
+  def checkReportTypeXml(log: Logger, message: String, reportType: Option[FindBugsReportType]): Unit = {
+    reportType match {
+      case Some(FindBugsReportType.Xml) =>
+      case _ =>
+        log.error(s"$message can only be used in combination with `findbugsReportType := Some(FindBugsReportType.Xml)`")
+        sys.exit(1)
+    }
+  }
+
+  private[findbugs] def processIssues(log: Logger, outputLocation: String): Int = {
     val report = scala.xml.XML.loadFile(file(outputLocation))
     val warnings = report \\ "BugCollection" \\ "BugInstance"
 
@@ -56,7 +70,7 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
       val bugType = bug.attribute("type").get.head.text
       val source = bug \\ "SourceLine" head
       val filename = source.attribute("sourcepath").get.head.text
-      val lineNumber = source.attribute("start").get.head.text
+      val lineNumber = source.attribute("start").map(_.head.text)
 
       val errorMessage = {
         val bugPriority = bug.attribute("priority").get.head.text
@@ -113,7 +127,7 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
           }).getOrElse("")
       }
 
-      log.error(bugType + " found in " + filename + ":" + lineNumber + ": " + errorMessage)
+      log.error(bugType + " found in " + filename + lineNumber.map(":" + _).getOrElse("") + ": " + errorMessage)
       1
     }).sum
   }
