@@ -1,0 +1,4 @@
+# Check the build succeeds and both the Xml and Xslt transformation reports are created
+> compile:findbugs
+$ exists target/findbugs-report.xml
+$ exists target/findbugs-report.html

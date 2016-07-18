@@ -56,8 +56,10 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
   def checkReportTypeXml(log: Logger, message: String, reportType: Option[FindBugsReportType]): Unit = {
     reportType match {
       case Some(FindBugsReportType.Xml) =>
+      case Some(FindBugsReportType.XmlWithMessages) =>
       case _ =>
-        log.error(s"$message can only be used in combination with `findbugsReportType := Some(FindBugsReportType.Xml)`")
+        log.error(s"$message can only be used in combination with `findbugsReportType := Some(FindBugsReportType.Xml)`" +
+          s" or `Some(FindBugsReportType.XmlWithMessages)`")
         sys.exit(1)
     }
   }

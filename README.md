@@ -9,7 +9,7 @@ This plugin currently uses FindBugs version 3.0.1.
 Add sbt-findbugs as a plugin in your projects `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("uk.co.josephearl" % "sbt-findbugs" % "2.4.1")
+addSbtPlugin("uk.co.josephearl" % "sbt-findbugs" % "2.4.2")
 ```
 
 sbt-findbugs is an AutoPlugin, so there is no need to modify the `build.sbt` file to enable it.
@@ -93,7 +93,17 @@ You can set FindBugs to fail the build if any bugs are found by setting `findbug
 findbugsFailOnError := true
 ```
 
-**This setting is only compatible with `findbugsReportType := Some(FindBugsReportType.Xml)` (the default).**
+**This setting is only compatible with `findbugsReportType := Some(FindBugsReportType.Xml)` (the default) or `Some(FindBugsReportType.XmlWithMessages)`.**
+
+### Generating an HTML report and failing the build
+
+Although you cannot currently use `findbugsFailOnError := true` in combination with `findbugsReportType := Some(FindBugsReportType.Html)`, you can use the XSLT transformations functionality to achieve the same result:
+
+```
+findbugsReportType := Some(FindBugsReportType.XmlWithMessages)
+findbugsXsltTransformations := Some(Set(FindBugsXSLTTransformation(baseDirectory(_ / "xsl" / "default.xsl").value, target(_ / "findbugs-report.html").value)))
+findbugsFailOnError := true
+```
 
 ### XSLT transformations
 
@@ -103,6 +113,7 @@ You can set `findbugsXsltTransformations` in your `build.sbt`, for example to ge
 
 ```
 findbugsXsltTransformations := Some(Set(FindBugsXSLTTransformation(baseDirectory(_ / "xsl" / "default.xsl").value, target(_ / "findbugs-report.html").value)))
+
 ```
 
 **This setting is only compatible with `findbugsReportType := Some(FindBugsReportType.Xml)` (the default).**
@@ -127,7 +138,7 @@ findbugsAuxiliaryPath in IntegrationTest := (dependencyClasspath in IntegrationT
 
 ### `findbugsReportType`
 * *Description:* Optionally selects the output format for the FindBugs report.
-* *Accepts:* `Some(FindBugsReportType.{Xml, Html, PlainHtml, FancyHtml, FancyHistHtml, Emacs, Xdoc})`
+* *Accepts:* `Some(FindBugsReportType.{Xml, XmlWithMessages, Html, PlainHtml, FancyHtml, FancyHistHtml, Emacs, Xdoc})`
 * *Default:* `Some(FindBugsReportType.Xml)`
 
 ### `findbugsReportPath`
@@ -166,7 +177,7 @@ findbugsAuxiliaryPath in IntegrationTest := (dependencyClasspath in IntegrationT
 * *Default:* `false`
 
 ### `findbugsFailOnError`
-* *Description:* Whether the build should be failed if there are any reported bug instances. **Only compatible with `findbugsReportType := Some(FindBugsReportType.Xml)`.**
+* *Description:* Whether the build should be failed if there are any reported bug instances. **Only compatible with `findbugsReportType := Some(FindBugsReportType.Xml)` or `Some(FindBugsReportType.XmlWithMessages)`.**
 * *Accepts:* `true` and `false`
 * *Default:* `false`
 
@@ -191,6 +202,6 @@ findbugsAuxiliaryPath in IntegrationTest := (dependencyClasspath in IntegrationT
 * *Default:* `Seq()`
 
 ### `findbugsXsltTransformations`
-* *Description:* A set of XSLT transformations to apply to the report. **Only compatible with `findbugsReportType := Some(FindBugsReportType.Xml)`.**
+* *Description:* A set of XSLT transformations to apply to the report. **Only compatible with `findbugsReportType := Some(FindBugsReportType.Xml)` or `Some(FindBugsReportType.XmlWithMessages)`.**
 * *Accepts:* any `Option[Set[FindBugsXSLTTransformation]]`
 * *Default:* `None`

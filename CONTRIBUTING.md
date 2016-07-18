@@ -14,8 +14,9 @@ Every pull request will be built with Travis CI.
 
 # Contributors
 
-Thanks to all of the following for their contributions:
+Thanks to all of the following people for their contributions:
 
-* Joachim Hofer ([jmhofer](https://github.com/jmhofer))
-* Andreas Flierl ([asflierl](http://github.com/asflierl))
-* Joseph Earl ([JosephEarl](https://github.com/JosephEarl))
+* [@jmhofer](https://github.com/jmhofer) - Joachim Hofer
+* [@asflierl](http://github.com/asflierl) - Andreas Flierl
+* [@josephearl](https://github.com/JosephEarl) - Joseph Earl
+* [@etyurkin](https://github.com/etyurkin)

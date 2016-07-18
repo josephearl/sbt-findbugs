@@ -15,6 +15,7 @@ object FindBugsReportType extends Enumeration {
   type FindBugsReportType = Value
   
   val Xml = Value("-xml")
+  val XmlWithMessages = Value("-xml:withMessages")
   val Html = Value("-html")
   val PlainHtml = Value("-html:plain.xsl")
   val FancyHtml = Value("-html:fancy.xsl")
@@ -22,4 +23,3 @@ object FindBugsReportType extends Enumeration {
   val Emacs = Value("-emacs")
   val Xdoc = Value("-xdocs")
 }
-
