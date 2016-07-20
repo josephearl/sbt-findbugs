@@ -116,7 +116,7 @@ findbugsXsltTransformations := Some(Set(FindBugsXSLTTransformation(baseDirectory
 
 ```
 
-**This setting is only compatible with `findbugsReportType := Some(FindBugsReportType.Xml)` (the default).**
+**This setting is only compatible with `findbugsReportType := Some(FindBugsReportType.Xml)` (the default) or `Some(FindBugsReportType.XmlWithMessages)`.**
 
 FindBugs comes with a number of default XSL files which you can use, these are found in [`findbugs/src/xsl`](https://github.com/JosephEarl/findbugs/tree/master/findbugs/src/xsl).
 
