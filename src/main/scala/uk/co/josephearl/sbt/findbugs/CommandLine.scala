@@ -38,19 +38,23 @@ private[findbugs] trait CommandLine extends Object with Filters {
 
       val auxClasspath = paths.auxPath ++ (findbugsClasspath.files filter (_.getName startsWith "jsr305"))
 
-      addOnlyAnalyzeParameter(addSortByClassParameter(addFilterFiles(filters, filterPath, 
+      addPluginListParameter(addOnlyAnalyzeParameter(addSortByClassParameter(addFilterFiles(filters, filterPath,
         misc.reportType.map(`type` => List(`type`.toString)).getOrElse(Nil) ++
         paths.reportPath.map(path => List("-output", path.absolutePath)).getOrElse(Nil) ++ List(
           "-nested:%b".format(misc.analyzeNestedArchives),
           "-auxclasspath", commandLineClasspath(auxClasspath), misc.priority.toString,
-          "-effort:%s".format(misc.effort.toString),
-          "-pluginList", misc.pluginList.mkString(":")))))
+          "-effort:%s".format(misc.effort.toString))))))
     }
   
     def addOnlyAnalyzeParameter(arguments: List[String]) = misc.onlyAnalyze match {
       case None => arguments
       case Some(Nil) => arguments
       case Some(packagesAndClasses) => arguments ++ List("-onlyAnalyze", packagesAndClasses mkString ",")
+    }
+
+    def addPluginListParameter(arguments: List[String]) = misc.pluginList match {
+      case Nil => arguments
+      case plugins => arguments ++ List("-pluginList", plugins mkString ":")
     }
 
     def addSortByClassParameter(arguments: List[String]) = 
@@ -61,10 +65,11 @@ private[findbugs] trait CommandLine extends Object with Filters {
     streams.log.debug("Executing FindBugs command line.")
     streams.log.debug("Output file: " + paths.reportPath.toString)
     streams.log.debug("Analyzed path: " + paths.analyzedPath.toString)
+    streams.log.debug("Plugin list: " + misc.pluginList.toString)
 
     paths.reportPath foreach (path => IO.createDirectory(path.getParentFile))
-    
-    findbugsCommandLine
+
+    findbugsCommandLine.map(s => s.replaceAll("\\\\", "/"))
   }
 }
 

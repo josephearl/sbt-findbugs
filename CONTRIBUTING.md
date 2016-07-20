@@ -19,4 +19,4 @@ Thanks to all of the following people for their contributions:
 * [@jmhofer](https://github.com/jmhofer) - Joachim Hofer
 * [@asflierl](http://github.com/asflierl) - Andreas Flierl
 * [@josephearl](https://github.com/JosephEarl) - Joseph Earl
-* [@etyurkin](https://github.com/etyurkin)
+* [@etyurkin](https://github.com/etyurkin) - Evgeniy Tyurkin
