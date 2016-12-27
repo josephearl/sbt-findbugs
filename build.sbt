@@ -4,7 +4,7 @@ name := "sbt-findbugs"
 
 organization := "uk.co.josephearl"
 
-version := "2.4.3"
+version := "2.4.4-SNAPSHOT"
 
 libraryDependencies ++= Seq(
   "net.sf.saxon" % "Saxon-HE" % "9.4",

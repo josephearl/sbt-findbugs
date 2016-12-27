@@ -24,6 +24,8 @@ You can define include/exclude filters either inline in the `build.sbt` or in an
 
 ### Defining filters inline
 
+You can include or exclude bug detection for particular classes and methods using [filters](http://findbugs.sourceforge.net/manual/filter.html) with the settings `findbugsIncludeFilters` and `findbugsExcludeFilters`.
+
 Just use Scala inline XML for the setting, for example:
 
 ```scala
@@ -39,23 +41,10 @@ findbugsIncludeFilters := Some(<FindBugsFilter>
 You can also read the filter settings from files in a more conventional way:
 
 ```scala
-findbugsIncludeFilters := Some(baseDirectory.value / "findbugs-include-filters.xml")
+findbugsIncludeFilters := Some(scala.xml.XML.loadFile(baseDirectory.value / "findbugs-include-filters.xml"))
 ```
 
-Or, if your configuration is zipped and previously published to a local repo:
-
-```scala
-findbugsIncludeFilters := {
-  val configFiles = update.value.select(module = moduleFilter(name = "velvetant-sonar"))
-  val configFile = configFiles.headOption flatMap { zippedFile =>
-    IO.unzip(zippedFile, target.value / "rules") find (_.name contains "velvetant-sonar-findbugs.xml")
-  }
-
-  configFile map scala.xml.XML.loadFile orElse sys.error("unable to find config file in update report")
-}
-```
-
-### Using FindBugs plugins
+### Plugins
 
 To use FindBugs plugins such as [fb-contrib](http://fb-contrib.sourceforge.net) or [find-sec-bugs](http://find-sec-bugs.github.io) use the `findbugsPluginList` setting:
 

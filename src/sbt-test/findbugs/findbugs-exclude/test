@@ -1,0 +1,3 @@
+# Check the build succeeds when running findbugs
+> compile:findbugs
+$ exists target/findbugs-report.xml

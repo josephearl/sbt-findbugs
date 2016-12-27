@@ -42,7 +42,8 @@ private[findbugs] trait CommandLine extends Object with Filters {
         misc.reportType.map(`type` => List(`type`.toString)).getOrElse(Nil) ++
         paths.reportPath.map(path => List("-output", path.absolutePath)).getOrElse(Nil) ++ List(
           "-nested:%b".format(misc.analyzeNestedArchives),
-          "-auxclasspath", commandLineClasspath(auxClasspath), misc.priority.toString,
+          "-auxclasspath", commandLineClasspath(auxClasspath),
+          misc.priority.toString,
           "-effort:%s".format(misc.effort.toString))))))
     }
   
