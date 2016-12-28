@@ -14,6 +14,7 @@ package uk.co.josephearl.sbt.findbugs
 import java.io.File
 
 import uk.co.josephearl.sbt.findbugs.FindBugsReportType.FindBugsReportType
+import uk.co.josephearl.sbt.findbugs.FindBugsPriority.FindBugsPriority
 import sbt.Def.Initialize
 import sbt.Keys._
 import sbt._

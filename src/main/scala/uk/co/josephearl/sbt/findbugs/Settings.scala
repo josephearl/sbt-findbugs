@@ -12,6 +12,7 @@
 package uk.co.josephearl.sbt.findbugs
 
 import FindBugsReportType._
+import FindBugsPriority._
 
 import scala.xml.Node
 import java.io.File

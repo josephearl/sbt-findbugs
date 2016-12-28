@@ -1,7 +1,8 @@
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
-      if (!(Test-Path -Path "C:\sbt" )) {
+      if (!(Test-Path -Path "C:\sbt\sbt\bin" )) {
+        Remove-Item C:\sbt -Force -Recurse
         (new-object System.Net.WebClient).DownloadFile(
           'https://dl.bintray.com/sbt/native-packages/sbt/0.13.9/sbt-0.13.9.zip',
           'C:\sbt-bin.zip'
