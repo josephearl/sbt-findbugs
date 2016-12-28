@@ -11,23 +11,11 @@
  */
 package uk.co.josephearl.sbt.findbugs
 
-sealed abstract class FindBugsPriority
+object FindBugsPriority extends Enumeration {
+  type FindBugsPriority = Value
 
-object FindBugsPriority {
-  case object Relaxed extends FindBugsPriority {
-    override def toString = "-relaxed"
-  }
-
-  case object Low extends FindBugsPriority {
-    override def toString = "-low"
-  }
-
-  case object Medium extends FindBugsPriority {
-    override def toString = "-medium"
-  }
-
-  case object High extends FindBugsPriority {
-    override def toString = "-high"
-  }
+  val Relaxed = Value("-relaxed")
+  val Low = Value("-low")
+  val Medium = Value("-medium")
+  val High = Value("-high")
 }
-
