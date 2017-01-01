@@ -44,6 +44,19 @@ You can also read the filter settings from files in a more conventional way:
 findbugsIncludeFilters := Some(scala.xml.XML.loadFile(baseDirectory.value / "findbugs-include-filters.xml"))
 ```
 
+### Exclude reporting of `EXPERIMENTAL` warnings
+
+You can disable reporting of `EXPERIMENTAL` category warnings using an exclude filter:
+
+```scala
+findbugsExcludeFilters := Some(<FindBugsFilter>
+  <Match>
+    <Bug category="EXPERIMENTAL" />
+  </Match>
+</FindBugsFilter>)
+
+```
+
 ### Plugins
 
 To use FindBugs plugins such as [fb-contrib](http://fb-contrib.sourceforge.net) or [find-sec-bugs](http://find-sec-bugs.github.io) use the `findbugsPluginList` setting:
@@ -135,10 +148,10 @@ findbugsAuxiliaryPath in IntegrationTest := (dependencyClasspath in IntegrationT
 * *Accepts:* any legal file path
 * *Default:* `Some(target.value / "findbugs-report.xml")`
 
-### `findbugsPriority`
-* *Description:* Suppress reporting of bugs based on priority.
-* *Accepts:* `FindBugsPriority.{Relaxed, Low, Medium, High}`
-* *Default:* `FindBugsPriority.Medium`
+### `findbugsConfidence`
+* *Description:* Suppress reporting of bugs based on confidence.
+* *Accepts:* `FindBugsConfidence.{Low, Medium, High}`
+* *Default:* `FindBugsConfidence.Medium`
 
 ### `findbugsEffort`
 * *Description:* Decide how much effort to put into analysis.
