@@ -1,4 +1,4 @@
-# Contribute
+# Contributing
 
 These are the basic steps for contributing to sbt-findbugs:
 
@@ -12,7 +12,7 @@ These are the basic steps for contributing to sbt-findbugs:
 
 Every pull request will be built with Travis CI.
 
-# Contributors
+## Contributors
 
 Thanks to all of the following people for their contributions:
 
