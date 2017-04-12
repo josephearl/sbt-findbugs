@@ -54,7 +54,6 @@ findbugsExcludeFilters := Some(<FindBugsFilter>
     <Bug category="EXPERIMENTAL" />
   </Match>
 </FindBugsFilter>)
-
 ```
 
 ### Plugins
