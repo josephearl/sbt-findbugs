@@ -11,11 +11,16 @@
  */
 package uk.co.josephearl.sbt.findbugs
 
-object FindBugsPriority extends Enumeration {
-  type FindBugsPriority = Value
+/**
+  * Confidence level of a bug, the likelihood that FindBugs has flagged a real bug.
+  */
+object FindBugsConfidence extends Enumeration {
+  type FindBugsConfidence = Value
 
-  val Relaxed = Value("-relaxed")
+  /** Report warnings of any confidence level. **/
   val Low = Value("-low")
+  /** Report only medium and high confidence warnings. This is the default confidence used. **/
   val Medium = Value("-medium")
+  /** Report only high confidence warnings. **/
   val High = Value("-high")
 }

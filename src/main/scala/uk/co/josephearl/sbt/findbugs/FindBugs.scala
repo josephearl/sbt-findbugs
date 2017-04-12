@@ -13,15 +13,16 @@ package uk.co.josephearl.sbt.findbugs
 
 import java.io.File
 import javax.xml.transform.stream.StreamSource
+
 import net.sf.saxon.s9api.Processor
-import sbt._
 import sbt.Keys._
-import FindBugsReportType._
+import sbt._
+import uk.co.josephearl.sbt.findbugs.FindBugsReportType._
 
 object FindBugs extends Object with CommandLine with CommandLineExecutor {
   def findbugs(findbugsClasspath: Classpath, compileClasspath: Classpath,
-      paths: PathSettings, filters: FilterSettings, misc: MiscSettings, javaHome: Option[File],
-      streams: TaskStreams): Unit = {
+               paths: PathSettings, filters: FilterSettings, misc: MiscSettings, javaHome: Option[File],
+               streams: TaskStreams): Unit = {
     val log = streams.log
 
     IO.withTemporaryDirectory { filterPath =>

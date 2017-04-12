@@ -1,9 +1,13 @@
 <FindBugsFilter>
     <Match>
-        <Class name="uk.co.josephearl.sbt.findbugs.UselessFinalize" />
-        <Bug pattern="FI_USELESS" />
+        <Class name="uk.co.josephearl.sbt.findbugs.PotentialLostLoggerExperimental" />
+        <Bug category="EXPERIMENTAL" />
     </Match>
     <Match>
         <Class name="uk.co.josephearl.sbt.findbugs.TestClass" />
+    </Match>
+    <Match>
+        <Class name="uk.co.josephearl.sbt.findbugs.UselessFinalize" />
+        <Bug pattern="FI_USELESS" />
     </Match>
 </FindBugsFilter>

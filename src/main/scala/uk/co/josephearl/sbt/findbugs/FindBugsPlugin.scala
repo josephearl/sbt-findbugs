@@ -14,7 +14,7 @@ package uk.co.josephearl.sbt.findbugs
 import java.io.File
 
 import uk.co.josephearl.sbt.findbugs.FindBugsReportType.FindBugsReportType
-import uk.co.josephearl.sbt.findbugs.FindBugsPriority.FindBugsPriority
+import uk.co.josephearl.sbt.findbugs.FindBugsConfidence.FindBugsConfidence
 import sbt.Def.Initialize
 import sbt.Keys._
 import sbt._
@@ -35,11 +35,11 @@ object FindBugsPlugin extends AutoPlugin {
     val findbugsAnalyzedPath = TaskKey[Seq[File]]("findbugs-analyzed-path")
     /** The path to the classes not to be analyzed but referenced by analyzed ones. Defaults to <code>dependencyClasspath in Compile</code>. */
     val findbugsAuxiliaryPath = TaskKey[Seq[File]]("findbugs-auxiliary-path")
-    /** Type of report to create. Defaults to <code>Some(ReportType.Xml)</code>. */
+    /** Type of report to create. Defaults to <code>Some(FindBugsReportType.Xml)</code>. */
     val findbugsReportType = SettingKey[Option[FindBugsReportType]]("findbugs-report-type")
-    /** Priority of bugs shown. Defaults to <code>Priority.Medium</code>. */
-    val findbugsPriority = SettingKey[FindBugsPriority]("findbugs-priority")
-    /** Effort put into bug finding. Defaults to <code>Effort.Default</code> */
+    /** Confidence of bugs shown. Defaults to <code>FindBugsConfidence.Medium</code>. */
+    val findbugsConfidence = SettingKey[FindBugsConfidence]("findbugs-confidence")
+    /** Effort put into bug finding. Defaults to <code>FindBugsEffort.Default</code> */
     val findbugsEffort = SettingKey[FindBugsEffort]("findbugs-effort")
     /** Optionally, define which packages/classes should be analyzed (<code>None</code> by default) */
     val findbugsOnlyAnalyze = SettingKey[Option[Seq[String]]]("findbugs-only-analyze")
@@ -63,9 +63,9 @@ object FindBugsPlugin extends AutoPlugin {
 
     // Type aliases
     val FindBugsReportType = uk.co.josephearl.sbt.findbugs.FindBugsReportType
-    val FindBugsPriority = uk.co.josephearl.sbt.findbugs.FindBugsPriority
+    val FindBugsConfidence = uk.co.josephearl.sbt.findbugs.FindBugsConfidence
     val FindBugsEffort = uk.co.josephearl.sbt.findbugs.FindBugsEffort
-    val FindBugsXSLTTransformation = uk.co.josephearl.sbt.findbugs.FindBugsXSLTTransformation
+    val FindBugsXsltTransformation = uk.co.josephearl.sbt.findbugs.FindBugsXSLTTransformation
 
     /**
       * Runs findbugs
@@ -75,7 +75,7 @@ object FindBugsPlugin extends AutoPlugin {
     def findbugsTask(conf: Configuration): Initialize[Task[Unit]] = Def.task {
       val filterSettings = ((findbugsIncludeFilters in conf, findbugsExcludeFilters in conf) map FilterSettings).value
       val pathSettings = ((findbugsReportPath in conf, findbugsAnalyzedPath in conf, findbugsAuxiliaryPath in conf) map PathSettings dependsOn (compile in conf)).value
-      val miscSettings = ((findbugsReportType, findbugsPriority, findbugsOnlyAnalyze, findbugsMaxMemory,
+      val miscSettings = ((findbugsReportType, findbugsConfidence, findbugsOnlyAnalyze, findbugsMaxMemory,
         findbugsAnalyzeNestedArchives, findbugsSortReportByClassNames, findbugsEffort, findbugsFailOnError,
         findbugsPluginList, findbugsXsltTransformations) map MiscSettings).value
 
@@ -100,7 +100,7 @@ object FindBugsPlugin extends AutoPlugin {
     ),
     findbugsPluginList := Seq(),
     findbugsReportType := Some(uk.co.josephearl.sbt.findbugs.FindBugsReportType.Xml),
-    findbugsPriority := uk.co.josephearl.sbt.findbugs.FindBugsPriority.Medium,
+    findbugsConfidence := uk.co.josephearl.sbt.findbugs.FindBugsConfidence.Medium,
     findbugsEffort := uk.co.josephearl.sbt.findbugs.FindBugsEffort.Default,
     findbugsMaxMemory := 1024,
     findbugsAnalyzeNestedArchives := true,

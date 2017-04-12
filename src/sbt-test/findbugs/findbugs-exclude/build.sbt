@@ -4,7 +4,7 @@ name := "findbugs-exclude"
 
 organization := "uk.co.josephearl"
 
-version := "2.4.4"
+version := "3.0.0-SNAPSHOT"
 
 findbugsFailOnError := true
 
