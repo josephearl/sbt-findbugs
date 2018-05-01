@@ -8,11 +8,11 @@ version := "2.4.4-SNAPSHOT"
 
 libraryDependencies ++= Seq(
   "net.sf.saxon" % "Saxon-HE" % "9.4",
-  "org.scalatest" % "scalatest_2.10" % "2.2.1" % "test",
+  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
   "junit" % "junit" % "4.11" % "test"
 )
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.12.6"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-language:_")
 
