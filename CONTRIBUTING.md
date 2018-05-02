@@ -20,3 +20,4 @@ Thanks to all of the following people for their contributions:
 * [@asflierl](http://github.com/asflierl) - Andreas Flierl
 * [@josephearl](https://github.com/JosephEarl) - Joseph Earl
 * [@etyurkin](https://github.com/etyurkin) - Evgeniy Tyurkin
+* [@BrandonArp](https://github.com/BrandonArp) - Brandon Arp
