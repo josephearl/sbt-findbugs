@@ -70,13 +70,13 @@ findbugsPluginList += file("lib/fb-contrib-6.6.0.jar").absolutePath
 To run FindBugs automatically after compilation add the following to your `build.sbt`:
 
 ```scala
-(findbugs in Compile) <<= (findbugs in Compile) triggeredBy (compile in Compile)
+(findbugs in Compile) := ((findbugs in Compile) triggeredBy (compile in Compile)).value
 ```
 
 To run FindBugs automatically after test compilation:
 
 ```scala
-(findbugs in Test) <<= (findbugs in Test) triggeredBy (compile in Test)
+(findbugs in Test) := ((findbugs in Test) triggeredBy (compile in Test)).value
 ```
 
 ### Failing the build
@@ -122,7 +122,7 @@ lazy val root = (project in file(".")).configs(IntegrationTest)
 
 Defaults.itSettings
 
-findbugs in IntegrationTest <<= findbugsTask(IntegrationTest),
+findbugs in IntegrationTest := findbugsTask(IntegrationTest).value,
 findbugsReportPath in IntegrationTest := Some(target(_ / "findbugs-integration-test-report.xml").value)
 findbugsAnalyzedPath in IntegrationTest := Seq((classDirectory in IntegrationTest).value)
 findbugsAuxiliaryPath in IntegrationTest := (dependencyClasspath in IntegrationTest).value.files
