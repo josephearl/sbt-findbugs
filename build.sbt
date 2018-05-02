@@ -4,11 +4,11 @@ name := "sbt-findbugs"
 
 organization := "uk.co.josephearl"
 
-version := "2.4.4-SNAPSHOT"
+version := "2.5.0"
 
 libraryDependencies ++= Seq(
   "net.sf.saxon" % "Saxon-HE" % "9.4",
-  "org.scalatest" % "scalatest_2.10" % "2.2.1" % "test",
+  "org.scalatest" % "scalatest_2.12" % "3.0.1" % "test",
   "junit" % "junit" % "4.11" % "test"
 )
 

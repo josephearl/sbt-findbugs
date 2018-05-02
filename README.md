@@ -1,6 +1,6 @@
 # sbt-findbugs [![Linux Build Status](https://travis-ci.org/josephearl/sbt-findbugs.svg?branch=master)](https://travis-ci.org/josephearl/sbt-findbugs) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/9teh7sgp3yt000iw?svg=true)](https://ci.appveyor.com/project/JosephEarl/sbt-findbugs)
 
-An SBT 0.13+ plugin for running FindBugs on Java classes. For more information about FindBugs, see <http://findbugs.sourceforge.net>.
+An sbt 1.x and 0.13.x plugin for running FindBugs on Java classes. For more information about FindBugs, see <http://findbugs.sourceforge.net>.
 
 This plugin currently uses FindBugs version 3.0.1.
 
@@ -9,8 +9,13 @@ This plugin currently uses FindBugs version 3.0.1.
 Add sbt-findbugs as a plugin in your projects `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("uk.co.josephearl" % "sbt-findbugs" % "2.4.3")
+addSbtPlugin("uk.co.josephearl" % "sbt-findbugs" % "2.5.0")
 ```
+
+| sbt version | sbt-findbugs version |
+|-------------|----------------------|
+| 1.x         | 2.5.0                |
+| 0.13.x      | 2.4.3                |
 
 sbt-findbugs is an AutoPlugin, so there is no need to modify the `build.sbt` file to enable it.
 

@@ -2,22 +2,17 @@ install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       if (!(Test-Path -Path "C:\sbt\sbt\bin" )) {
-        Remove-Item C:\sbt -Force -Recurse
+        if (Test-Path -Path "C:\sbt" ) {
+          Remove-Item C:\sbt -Force -Recurse
+        }
         (new-object System.Net.WebClient).DownloadFile(
           'https://github.com/sbt/sbt/releases/download/v1.1.2/sbt-1.1.2.zip',
           'C:\sbt-bin.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sbt-bin.zip", "C:\sbt")
       }
-  - ps: |
-      if (!(Test-Path -Path "C:\Program Files\Java\jdk1.7.0\src.zip")) {
-        (new-object System.Net.WebClient).DownloadFile(
-          'http://downloads.sourceforge.net/project/jdk7src/jdk7u10/2013-01-04/src-jdk.zip',
-          'C:\Program Files\Java\jdk1.7.0\src.zip'
-        )
-      }
-  - cmd: SET JDK_HOME=C:\Program Files\Java\jdk1.7.0
-  - cmd: SET JAVA_HOME=C:\Program Files\Java\jdk1.7.0
+  - cmd: SET JDK_HOME=C:\Program Files\Java\jdk1.8.0
+  - cmd: SET JAVA_HOME=C:\Program Files\Java\jdk1.8.0
   - cmd: SET PATH=C:\sbt\sbt\bin;%JDK_HOME%\bin;%PATH%
 build_script:
   - sbt compile test scripted
@@ -25,4 +20,3 @@ cache:
   - C:\sbt\
   - C:\Users\appveyor\.m2
   - C:\Users\appveyor\.ivy2
-  - C:\Program Files\Java\jdk1.7.0\src.zip
