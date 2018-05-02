@@ -18,6 +18,7 @@ import uk.co.josephearl.sbt.findbugs.FindBugsPriority.FindBugsPriority
 import sbt.Def.Initialize
 import sbt.Keys._
 import sbt._
+import sbt.TupleSyntax._
 
 import scala.xml.Node
 
@@ -84,16 +85,16 @@ object FindBugsPlugin extends AutoPlugin {
     }
   }
 
-  private val findbugsConfig = config("findbugs").hide
+  private val FindbugsConfig = config("findbugs").hide
 
   import autoImport._
 
   override def projectConfigurations: Seq[Configuration] = Seq(
-    findbugsConfig
+    FindbugsConfig
   )
 
   private lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
-    findbugsClasspath := Classpaths managedJars (findbugsConfig, classpathTypes.value, update.value),
+    findbugsClasspath := Classpaths managedJars (FindbugsConfig, classpathTypes.value, update.value),
     libraryDependencies ++= Seq(
       "com.google.code.findbugs" % "findbugs" % "3.0.1" % "findbugs->default",
       "com.google.code.findbugs" % "jsr305" % "3.0.1" % "findbugs->default"
@@ -113,8 +114,8 @@ object FindBugsPlugin extends AutoPlugin {
   )
 
   override lazy val projectSettings: Seq[Def.Setting[_]] = Seq(
-    findbugs <<= findbugsTask(Compile),
-    findbugs in Test <<= findbugsTask(Test),
+    findbugs := findbugsTask(Compile).value,
+    findbugs in Test := findbugsTask(Test).value,
     findbugsReportPath := Some(target.value / "findbugs-report.xml"),
     findbugsReportPath in Test := Some(target.value / "findbugs-test-report.xml"),
     findbugsAnalyzedPath := Seq((classDirectory in Compile).value),
