@@ -1,4 +1,4 @@
-# sbt-findbugs [![Linux Build Status](https://travis-ci.org/josephearl/sbt-findbugs.svg?branch=master)](https://travis-ci.org/josephearl/sbt-findbugs) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/9teh7sgp3yt000iw?svg=true)](https://ci.appveyor.com/project/JosephEarl/sbt-findbugs)
+# sbt-findbugs [![Linux Build Status](https://travis-ci.org/josephearl/sbt-findbugs.svg?branch=master)](https://travis-ci.org/josephearl/sbt-findbugs) [![Windows Build Status](https://ci.appveyor.com/api/projects/status/9teh7sgp3yt000iw?svg=true)](https://ci.appveyor.com/project/josephearl/sbt-findbugs)
 
 An sbt 1.x and 0.13.x plugin for running FindBugs on Java classes. For more information about FindBugs, see <http://findbugs.sourceforge.net>.
 

@@ -2,7 +2,7 @@ install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       if (!(Test-Path -Path "C:\sbt\sbt\bin" )) {
-        if (Test-Path -Path "C:\sbt" ) {
+        if (Test-Path -Path "C:\sbt") {
           Remove-Item C:\sbt -Force -Recurse
         }
         (new-object System.Net.WebClient).DownloadFile(
