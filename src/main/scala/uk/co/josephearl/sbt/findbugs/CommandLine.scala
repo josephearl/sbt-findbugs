@@ -12,6 +12,7 @@
 package uk.co.josephearl.sbt.findbugs
 
 import java.io.File
+import java.nio.file._
 
 import sbt.Keys._
 import sbt._
@@ -69,6 +70,8 @@ private[findbugs] trait CommandLine extends Object with Filters {
     streams.log.debug("Plugin list: " + misc.pluginList.toString)
 
     paths.reportPath foreach (path => IO.createDirectory(path.getParentFile))
+
+    misc.pluginList filter (path => !Files.exists(Paths.get(path))) foreach (path => streams.log.error("Unable to find plugin: " + path))
 
     findbugsCommandLine.map(s => s.replaceAll("\\\\", "/"))
   }
