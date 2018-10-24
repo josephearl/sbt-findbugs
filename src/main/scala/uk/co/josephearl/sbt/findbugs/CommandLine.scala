@@ -55,7 +55,7 @@ private[findbugs] trait CommandLine extends Object with Filters {
 
     def addPluginListParameter(arguments: List[String]) = misc.pluginList match {
       case Nil => arguments
-      case plugins => arguments ++ List("-pluginList", plugins mkString ":")
+      case plugins => arguments ++ List("-pluginList", plugins mkString File.pathSeparator)
     }
 
     def addSortByClassParameter(arguments: List[String]) = 
