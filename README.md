@@ -9,8 +9,10 @@ This plugin currently uses FindBugs version 3.0.1.
 Add sbt-findbugs as a plugin in your projects `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("uk.co.josephearl" % "sbt-findbugs" % "2.5.0")
+addSbtPlugin("uk.co.josephearl" % "sbt-findbugs" % "<version>")
 ```
+
+The plugin version depends on the sbt version you are using (you can check this with `sbt sbt-version`):
 
 | sbt version | sbt-findbugs version |
 |-------------|----------------------|
