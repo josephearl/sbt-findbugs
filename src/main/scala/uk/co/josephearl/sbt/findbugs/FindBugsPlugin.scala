@@ -96,8 +96,7 @@ object FindBugsPlugin extends AutoPlugin {
   private lazy val commonSettings: Seq[Def.Setting[_]] = Seq(
     findbugsClasspath := Classpaths managedJars (FindbugsConfig, classpathTypes.value, update.value),
     libraryDependencies ++= Seq(
-      "com.google.code.findbugs" % "findbugs" % "3.0.1" % "findbugs->default",
-      "com.google.code.findbugs" % "jsr305" % "3.0.1" % "findbugs->default"
+      "com.github.spotbugs" % "spotbugs" % "3.1.12" % "findbugs->default"
     ),
     findbugsPluginList := Seq(),
     findbugsReportType := Some(uk.co.josephearl.sbt.findbugs.FindBugsReportType.Xml),

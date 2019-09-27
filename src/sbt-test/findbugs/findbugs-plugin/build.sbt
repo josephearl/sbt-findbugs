@@ -6,4 +6,4 @@ version := "2.2.0"
 
 findbugsFailOnError := true
 
-findbugsPluginList += file("lib/fb-contrib-6.6.0.jar").absolutePath
+findbugsPluginList += file("lib/fb-contrib-7.4.6.jar").absolutePath
