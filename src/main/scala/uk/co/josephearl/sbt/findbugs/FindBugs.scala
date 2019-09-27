@@ -26,7 +26,7 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
 
     IO.withTemporaryDirectory { filterPath =>
       val cmd = commandLine(findbugsClasspath, compileClasspath, paths, filters, filterPath, misc, streams)
-      log.debug("FindBugs command line to execute: \"%s\"" format (cmd mkString " "))
+      log.debug("SpotBugs command line to execute: \"%s\"" format (cmd mkString " "))
       executeCommandLine(cmd, javaHome, log)
     }
 
@@ -46,7 +46,7 @@ object FindBugs extends Object with CommandLine with CommandLineExecutor {
           .sum
 
         if (issuesFound > 0) {
-          log.error(issuesFound + " issue(s) found in FindBugs report: " + paths.reportPath.get + "")
+          log.error(issuesFound + " issue(s) found in SpotBugs report: " + paths.reportPath.get + "")
           sys.exit(1)
         }
       }

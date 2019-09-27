@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  FindBugs - Find bugs in Java programs
+  SpotBugs - Find bugs in Java programs
   Copyright (C) 2004,2005 University of Maryland
   Copyright (C) 2005, Chris Nappin
 
@@ -21,10 +21,10 @@
 -->
 
 <!--
-  A simple XSLT stylesheet to transform FindBugs XML results
+  A simple XSLT stylesheet to transform SpotBugs XML results
   annotated with messages into HTML.
   If you want to experiment with modifying this stylesheet,
-  or write your own, you need to generate XML output from FindBugs
+  or write your own, you need to generate XML output from SpotBugs
   using a special option which lets it know to include
   human-readable messages in the XML.  Invoke the findbugs script
   as follows:
@@ -65,7 +65,7 @@
   <xsl:template match="/">
     <html>
       <head>
-        <title>FindBugs Report</title>
+        <title>SpotBugs Report</title>
         <style type="text/css">
           .tablerow0 {
           background: #EEEEEE;
@@ -132,7 +132,7 @@
 
       <body>
 
-        <h1><a href="http://findbugs.sourceforge.net">FindBugs</a> Report</h1>
+        <h1><a href="https://spotbugs.github.io">SpotBugs</a> Report</h1>
 
         <h2>Project Information</h2>
         <xsl:apply-templates select="/BugCollection/Project"/>
@@ -221,7 +221,7 @@
         <xsl:otherwise><xsl:value-of select="/BugCollection/Project/@filename" /></xsl:otherwise>
       </xsl:choose>
     </p>
-    <p>FindBugs version: <xsl:value-of select="/BugCollection/@version"/></p>
+    <p>SpotBugs version: <xsl:value-of select="/BugCollection/@version"/></p>
 
     <p>Code analyzed:</p>
     <ul>

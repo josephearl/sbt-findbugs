@@ -28,9 +28,9 @@ object FindBugsPlugin extends AutoPlugin {
   object autoImport {
     val findbugs = TaskKey[Unit]("findbugs")
     val findbugsClasspath = TaskKey[Classpath]("findbugs-classpath")
-    /** Plugin list for FindBugs. Defaults to <code>Seq()</code>. */
+    /** Plugin list for SpotBugs. Defaults to <code>Seq()</code>. */
     val findbugsPluginList = TaskKey[Seq[String]]("findbugs-plugin-list")
-    /** Output path for FindBugs reports. Defaults to <code>Some(target / "findbugs" / "findbugs.xml")</code>. */
+    /** Output path for SpotBugs reports. Defaults to <code>Some(target / "findbugs" / "findbugs.xml")</code>. */
     val findbugsReportPath = SettingKey[Option[File]]("findbugs-report-path")
     /** The path to the classes to be analyzed. Defaults to <code>target / classes</code>. */
     val findbugsAnalyzedPath = TaskKey[Seq[File]]("findbugs-analyzed-path")
@@ -44,9 +44,9 @@ object FindBugsPlugin extends AutoPlugin {
     val findbugsEffort = SettingKey[FindBugsEffort]("findbugs-effort")
     /** Optionally, define which packages/classes should be analyzed (<code>None</code> by default) */
     val findbugsOnlyAnalyze = SettingKey[Option[Seq[String]]]("findbugs-only-analyze")
-    /** Maximum amount of memory to allow for FindBugs (in MB). */
+    /** Maximum amount of memory to allow for SpotBugs (in MB). */
     val findbugsMaxMemory = SettingKey[Int]("findbugs-max-memory")
-    /** Whether FindBugs should analyze nested archives or not. Defaults to <code>true</code>. */
+    /** Whether SpotBugs should analyze nested archives or not. Defaults to <code>true</code>. */
     val findbugsAnalyzeNestedArchives = SettingKey[Boolean]("findbugs-analyze-nested-archives")
     /** Whether the reported bug instances should be sorted by class name or not. Defaults to <code>false</code>. */
     val findbugsSortReportByClassNames = SettingKey[Boolean]("findbugs-sort-report-by-class-names")
