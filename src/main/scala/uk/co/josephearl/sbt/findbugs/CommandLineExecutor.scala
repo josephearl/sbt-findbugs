@@ -19,9 +19,9 @@ private[findbugs] trait CommandLineExecutor {
     val exitValue = Fork.java(
        ForkOptions().withJavaHome(javaHome).withOutputStrategy(LoggedOutput(log)),
        commandLine)
-    if (exitValue != 0) sys.error("Nonzero exit value when attempting to call FindBugs: " + exitValue)
+    if (exitValue != 0) sys.error("Nonzero exit value when attempting to call SpotBugs: " + exitValue)
     
   } catch {
-    case NonFatal(e) => sys.error("Exception while executing FindBugs: %s".format(e.getMessage))
+    case NonFatal(e) => sys.error("Exception while executing SpotBugs: %s".format(e.getMessage))
   }
 }

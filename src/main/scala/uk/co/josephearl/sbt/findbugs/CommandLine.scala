@@ -25,7 +25,7 @@ private[findbugs] trait CommandLine extends Object with Filters {
 
     def findbugsJavaCall = {
       val classpath = commandLineClasspath(findbugsClasspath.files)
-      streams.log.debug("FindBugs classpath: %s" format classpath)
+      streams.log.debug("SpotBugs classpath: %s" format classpath)
   
       List("-Xmx%dm".format(misc.maxMemory),
           "-cp", classpath, "edu.umd.cs.findbugs.LaunchAppropriateUI", "-textui")
@@ -64,7 +64,7 @@ private[findbugs] trait CommandLine extends Object with Filters {
 
     def commandLineClasspath(classpathFiles: Seq[File]) = PathFinder(classpathFiles).absString
       
-    streams.log.debug("Executing FindBugs command line.")
+    streams.log.debug("Executing SpotBugs command line.")
     streams.log.debug("Output file: " + paths.reportPath.toString)
     streams.log.debug("Analyzed path: " + paths.analyzedPath.toString)
     streams.log.debug("Plugin list: " + misc.pluginList.toString)
